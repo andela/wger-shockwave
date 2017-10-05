@@ -375,7 +375,7 @@ def setup_django_environment(settings_path):
         sys.exit(1)
     settings_module_dir = os.path.dirname(settings_path)
     sys.path.append(settings_module_dir)
-    os.environ[django.conf.ENVIRONMENT_VARIABLE] = '%s' % settings_module_name
+    os.environ[django.conf.ENVIRONMENT_VARIABLE] = 'wger.%s' % settings_module_name
     django.setup()
 
 
