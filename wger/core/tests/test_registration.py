@@ -64,8 +64,8 @@ class RegistrationTestCase(WorkoutManagerTestCase):
         # Fill in the registration form
         registration_data = {
             'username': 'myusername',
-            'password1': 'secret',
-            'password2': 'secret',
+            'password1': 'Qwerty09876',
+            'password2': 'Qwerty09876',
             'email': 'not an email',
             'g-recaptcha-response': 'PASSED',
         }
@@ -122,8 +122,8 @@ class RegistrationTestCase(WorkoutManagerTestCase):
             # Fill in the registration form
             registration_data = {
                 'username': 'myusername',
-                'password1': 'secret',
-                'password2': 'secret',
+                'password1': 'Qwerty09876',
+                'password2': 'Qwerty09876',
                 'email': 'my.email@example.com',
                 'g-recaptcha-response': 'PASSED',
             }
