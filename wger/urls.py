@@ -191,7 +191,12 @@ urlpatterns = i18n_patterns(
         include('wger.config.urls', namespace='config', app_name='config')),
     url(r'gym/', include('wger.gym.urls', namespace='gym', app_name='gym')),
     url(r'email/', include('wger.email.urls', namespace='email')),
-    url(r'^sitemap\.xml$', sitemap, {'sitemaps': sitemaps}, name='sitemap'))
+    url(r'^sitemap\.xml$',
+        sitemap,
+        {'sitemaps': sitemaps},
+        name='sitemap'),
+    url('', include('social_django.urls', namespace='social'))
+)
 
 #
 # URLs without language prefix

@@ -7,17 +7,61 @@
 {% block header %}
 {% endblock %}
 
+
 {% block content %}
-<form action="{% url 'core:user:login' %}{% if next %}?next={{next}}{% endif %}"
-      method="post"
-      class="form-horizontal">
-    {% trans 'Login' as submit_text %}
-    {% render_form_fields form submit_text %}
-</form>
+<div class="login-area">
+    <div class="row">
+        <div class="cols-md-12 form-area">
+            <form action="{% url 'core:user:login' %}{% if next %}?next={{next}}{% endif %}"
+                method="post" class="form-horizontal">
+                {% trans 'Login' as submit_text %}
+                {% render_form_fields form submit_text %}
+            </form>
+        </div>
+    </div>
+    <div class="row">
+        <div class="cols-md-12 social-logins" >
+            <div class="row">
+                <div class="cols-md-12 social-header">
+                    <h4 >Or Login With</h4>
+                </div>
+            </div>
+            <div class="row">
+                <div class="cols-md-12 social-links">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <a href="{% url "social:begin" "facebook" %}" title="Facebook" class="btn btn-block btn-social btn-lg btn-facebook">
+                                <i class="fa fa-facebook"></i> Sign in with Facebook
+                            </a>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <a href="{% url "social:begin" "google-oauth2" %}" title="Google" class="btn btn-block btn-social btn-lg btn-google">
+                                <i class="fa fa-google"></i> Sign in with Google
+                            </a>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <a href="{% url "social:begin" "twitter" %}" title="Twitter" class="btn btn-block btn-social btn-lg btn-twitter">
+                                <i class="fa fa-twitter"></i> Sign in with Twitter
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 {% endblock %}
 
 
 {% block sidebar %}
+
+
 <h4>{% trans "No account?" %}</h4>
 <p>
     <a href="{% url 'core:user:registration' %}" class="btn btn-block btn-default">
