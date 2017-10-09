@@ -7,28 +7,25 @@ from wger.settings_global import *
 DEBUG = True
 TEMPLATES[0]['OPTIONS']['debug'] = True
 
-ADMINS = (('Your name', 'your_email@example.com'), )
+ADMINS = (
+    ('Your name', 'your_email@example.com'),
+)
 MANAGERS = ADMINS
+
 
 DATABASES = {
     'default': {
-        'ENGINE':
-        'django.db.backends.sqlite3',
-        'NAME':
-        '/Users/anthonywaithaka/Documents/Github/sims2/wger-shockwave/wger/database.sqlite',
-        'USER':
-        '',
-        'PASSWORD':
-        '',
-        'HOST':
-        '',
-        'PORT':
-        '',
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': 'wger/database.sqlite',
+        'USER': '',
+        'PASSWORD': '',
+        'HOST': '',
+        'PORT': '',
     }
 }
 
 # Make this unique, and don't share it with anybody.
-SECRET_KEY = 'q2-9f5goa=!a@ylh$b(_o)1x)l1_lmr$(wk(sx2izn_mj_b56+'
+SECRET_KEY = 'i--!8)8!+9=c6n0og$l35ku53n_7$apduj=l5x805hrr##q##r'
 
 # Your reCaptcha keys
 RECAPTCHA_PUBLIC_KEY = ''
@@ -42,7 +39,8 @@ SITE_URL = 'http://localhost:8000'
 
 # Path to uploaded files
 # Absolute filesystem path to the directory that will hold user-uploaded files.
-MEDIA_ROOT = '/Users/anthonywaithaka/.local/share/wger/media'
+
+MEDIA_ROOT = '/Users/robertndungu/.local/share/wger/media'
 MEDIA_URL = '/media/'
 
 # Allow all hosts to access the application. Change if used in production.
