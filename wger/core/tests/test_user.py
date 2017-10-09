@@ -12,7 +12,7 @@
 #
 # You should have received a copy of the GNU Affero General Public License
 
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, UserManager
 from django.core.urlresolvers import reverse, reverse_lazy
 
 from wger.core.tests.base_testcase import (WorkoutManagerTestCase,
@@ -164,6 +164,27 @@ class UserListTestCase(WorkoutManagerAccessTestCase):
     user_success = ('admin', 'general_manager1', 'general_manager2')
     user_fail = ('member1', 'member2', 'manager1', 'manager2', 'manager3',
                  'trainer2', 'trainer3', 'trainer4')
+
+
+    def test_active_inactive_user_view(self):
+        '''
+        Login admin. Create active and inactive users. Ensure active user
+        is on the list page and that inactive user is on the inactive_list
+        page.
+        '''
+        self.user_login('admin')
+        active_user = User.objects.get(pk=14)
+        inactive_user = User.objects.get(pk=13)
+        inactive_user.is_active = False
+        inactive_user.save()
+        self.assertTrue(active_user.is_active)
+        self.assertFalse(inactive_user.is_active)
+        get_active_users = self.client.get(reverse(self.url))
+        self.assertContains(get_active_users, active_user.username, status_code=200)
+        self.assertNotContains(get_active_users, inactive_user.username, status_code=200)
+        get_inactive_users = self.client.get(reverse('core:user:inactive_list'))
+        self.assertContains(get_inactive_users, inactive_user.username, status_code=200)
+        self.assertNotContains(get_inactive_users, active_user.username, status_code=200)
 
 
 class UserDetailPageTestCase(WorkoutManagerAccessTestCase):
