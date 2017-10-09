@@ -229,7 +229,8 @@
                                             <li><a href="{% url 'core:weight-unit:list' %}">{% trans "Weight units" %} </a></li>
                                         {% endif %}
                                         {% if perms.gym.manage_gyms %}
-                                            <li><a href="{% url 'core:user:list' %}">{% trans "User list" %} </a></li>
+                                            <li><a href="{% url 'core:user:list' %}">{% trans "Active Users" %} </a></li>
+                                            <li><a href="{% url 'core:user:inactive_list' %}">{% trans "Inactive users" %} </a></li>
                                             <li><a href="{% url 'gym:gym:list' %}">{% trans "Gyms" %} </a></li>
                                         {% endif  %}
 
