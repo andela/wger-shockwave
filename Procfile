@@ -1,1 +1,1 @@
-web: python manage.py runserver 0.0.0.0:$PORT
+web: invoke create-settings --settings-path wger/settings.py --database-path wger/database.sqlite && invoke bootstrap-wger --settings-path wger/settings.py --no-start-server && python manage.py runserver 0.0.0.0:$PORT
