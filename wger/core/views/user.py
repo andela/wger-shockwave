@@ -528,5 +528,5 @@ class UserListView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
                                           _('Last activity'),
                                           _('Gym')],
                                  'users': context['object_list']['members']}
-        context['user_type'] = self.userType,
+        context['user_type'] = self.userType
         return context
