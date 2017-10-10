@@ -1,6 +1,7 @@
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
+*.DS_Store
 
 # C extensions
 *.so
@@ -64,3 +65,9 @@ target/
 # External Libraries
 wger/core/static/bower_components
 node_modules
+
+# Local settings
+wger/settings.py
+
+# Migrations
+migrations/
