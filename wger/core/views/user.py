@@ -508,13 +508,13 @@ class UserListView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
         '''
         Return a list with the users, not really a queryset.
         '''
-        out = {'admins': [],
+        user_list = {'admins': [],
                'members': []}
         for user in User.objects.select_related('usercache',
                                                 'userprofile__gym').filter(is_active=self.userType):
-            out['members'].append({'obj': user,
+            user_list['members'].append({'obj': user,
                                    'last_log': user.usercache.last_activity})
-        return out
+        return user_list
 
     def get_context_data(self, **kwargs):
         '''
