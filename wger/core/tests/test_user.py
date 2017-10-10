@@ -173,8 +173,8 @@ class UserListTestCase(WorkoutManagerAccessTestCase):
         page.
         '''
         self.user_login('admin')
-        active_user = User.objects.get(pk=14)
-        inactive_user = User.objects.get(pk=13)
+        active_user = User.objects.create_user(username='active_user_example1')
+        inactive_user = User.objects.create_user(username='inactive_user_example2')
         inactive_user.is_active = False
         inactive_user.save()
         self.assertTrue(active_user.is_active)
