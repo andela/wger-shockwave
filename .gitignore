@@ -22,7 +22,7 @@ var/
 .installed.cfg
 *.egg
 
-settings.py
+wger/settings.py
 
 # PyInstaller
 #  Usually these files are written by a python script from a template
