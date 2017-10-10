@@ -16,11 +16,8 @@ from django.core.files import File
 from django.core.urlresolvers import reverse
 
 from wger.core.tests.base_testcase import (
-    WorkoutManagerTestCase,
-    WorkoutManagerEditTestCase,
-    WorkoutManagerAddTestCase,
-    WorkoutManagerDeleteTestCase
-)
+    WorkoutManagerTestCase, WorkoutManagerEditTestCase,
+    WorkoutManagerAddTestCase, WorkoutManagerDeleteTestCase)
 from wger.exercises.models import Exercise, ExerciseImage
 
 
@@ -40,10 +37,9 @@ class MainImageTestCase(WorkoutManagerTestCase):
         image.status = ExerciseImage.STATUS_ACCEPTED
         image.image.save(
             filename,
-            File(open('wger/exercises/tests/{0}'.format(filename), 'rb'))
-        )
+            File(open('wger/exercises/tests/{0}'.format(filename), 'rb')))
         image.save()
-        return(image.pk)
+        return (image.pk)
 
     def test_auto_main_image(self):
         '''
@@ -109,9 +105,11 @@ class AddExerciseImageTestCase(WorkoutManagerAddTestCase):
     object_class = ExerciseImage
     url = reverse('exercise:image:add', kwargs={'exercise_pk': 1})
     user_fail = False
-    data = {'is_main': True,
-            'image': open('wger/exercises/tests/protestschwein.jpg', 'rb'),
-            'license': 1}
+    data = {
+        'is_main': True,
+        'image': open('wger/exercises/tests/protestschwein.jpg', 'rb'),
+        'license': 1
+    }
 
 
 class EditExerciseImageTestCase(WorkoutManagerEditTestCase):
@@ -122,8 +120,7 @@ class EditExerciseImageTestCase(WorkoutManagerEditTestCase):
     object_class = ExerciseImage
     url = 'exercise:image:edit'
     pk = 2
-    data = {'is_main': True,
-            'license': 1}
+    data = {'is_main': True, 'license': 1}
 
 
 class DeleteExerciseImageTestCase(WorkoutManagerDeleteTestCase):

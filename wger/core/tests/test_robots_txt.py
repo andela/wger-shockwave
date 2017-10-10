@@ -28,5 +28,5 @@ class RobotsTxtTestCase(WorkoutManagerTestCase):
 
         response = self.client.get(reverse('robots'))
         for lang in Language.objects.all():
-            self.assertTrue('wger.de/{0}/sitemap.xml'.format(lang.short_name)
-                            in six.text_type(response.content))
+            self.assertTrue('wger.de/{0}/sitemap.xml'.format(
+                lang.short_name) in six.text_type(response.content))
