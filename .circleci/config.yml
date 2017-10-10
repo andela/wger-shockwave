@@ -27,6 +27,7 @@ jobs:
             python3 -m venv venv
             . venv/bin/activate
             pip install -r requirements.txt
+            invoke bootstrap-wger --settings-path wger/settings.py --no-start-server
 
       - save_cache:
           paths:
