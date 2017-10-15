@@ -126,5 +126,29 @@
             "is_front": false, 
             "name": "Triceps brachii"
         }
+    },
+    {
+        "pk": 17,
+        "model": "exercises.muscle",
+        "fields": {
+            "is_front": false,
+            "name": "Lateral deltoid"
+        }
+    },
+    {
+        "pk": 18,
+        "model": "exercises.muscle",
+        "fields": {
+            "is_front": false,
+            "name": "Posterious deltoid"
+        }
+    },
+    {
+        "pk": 19,
+        "model": "exercises.muscle",
+        "fields": {
+            "is_front": true,
+            "name": "Forearms"
+        }
     }
 ]
