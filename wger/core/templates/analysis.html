@@ -1,12 +1,22 @@
-{% extends "base_wide.html" %} {% load i18n staticfiles wger_extras %} {% block title %}{% trans "Analysis" %}{% endblock%}
+{% extends "base_wide.html" %} {% load i18n staticfiles wger_extras %} {% block title %}{% trans "Weight Comparison" %}{% endblock%}
 {% block header %}
 <script src="{% static 'js/weight.js' %}"></script> {% endblock %} {% block content %}
 
 <div id="current-username" data-current-username="{{ owner_user.username }}" value="{{ owner_user.username }}"></div>
 
 <div class="row">
-    <div id="weight_diagram" class="col-md-6"></div>
     
+
+    <div class="col-md-6">
+        My Graph
+        {% if not min_date %}
+        <p>
+            {% trans "There is no chart here because there are no weight entries." %}
+        </p>
+        {% endif %}
+        <div id="weight_diagram"></div>
+    </div>
+
     <div class="col-md-6">
         <select id="user-change" onchange="userchange(this.value)">
             <option value="{{ owner_user.username }}">{{ owner_user.username }}</option>
