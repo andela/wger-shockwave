@@ -193,16 +193,11 @@ def get_user_weight_data(request, username=None):
     '''
     Process the data to pass it to the JS libraries to generate an SVG image
     '''
+    # print(user)
     is_owner, user = check_access(request.user, username)
 
-    date_min = request.GET.get('date_min', False)
-    date_max = request.GET.get('date_max', True)
-
-    if date_min and date_max:
-        weights = WeightEntry.objects.filter(
-            user=user, date__range=(date_min, date_max))
-    else:
-        weights = WeightEntry.objects.filter(user=user)
+    print(user)
+    weights = WeightEntry.objects.filter(user=user)
 
     chart_data = []
 
