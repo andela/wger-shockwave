@@ -151,6 +151,19 @@
                             </ul>
                         </li>
 
+                        {#          #}
+                        {# Users Graphs #}
+                        {#          #}
+                        <li {% if active_tab == 'user' %}class="active"{% endif %}>
+                            <a href="{% url 'core:analysis' %}">
+                                {% if not user.is_authenticated %}
+                                    {% trans "Features" %}
+                                {% else %}
+                                    {% trans "Workout Analysis" %}
+                                {% endif %}
+                            </a>
+                        </li>
+
                         {#                     #}
                         {# Options and contact #}
                         {#                     #}
