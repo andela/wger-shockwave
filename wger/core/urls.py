@@ -139,6 +139,9 @@ urlpatterns = [
     # The landing page
     url(r'^$', misc.index, name='index'),
 
+    #workout graphs page
+    url(r'^analysis$', misc.analysis, name='analysis'),
+
     # The dashboard
     url(r'^dashboard$', misc.dashboard, name='dashboard'),
 
