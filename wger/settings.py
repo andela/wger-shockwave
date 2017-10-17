@@ -16,7 +16,7 @@ MANAGERS = ADMINS
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': 'wger/database.sqlite',
+        'NAME': './wger/database.sqlite',
         'USER': '',
         'PASSWORD': '',
         'HOST': '',
@@ -25,7 +25,7 @@ DATABASES = {
 }
 
 # Make this unique, and don't share it with anybody.
-SECRET_KEY = 'i--!8)8!+9=c6n0og$l35ku53n_7$apduj=l5x805hrr##q##r'
+SECRET_KEY = '%oj87ggjcy=(9cyg@s%v!m$lgu*9p(_7))td3)&n#z+^l3&_z#'
 
 # Your reCaptcha keys
 RECAPTCHA_PUBLIC_KEY = ''
@@ -39,15 +39,14 @@ SITE_URL = 'http://localhost:8000'
 
 # Path to uploaded files
 # Absolute filesystem path to the directory that will hold user-uploaded files.
-
-MEDIA_ROOT = '/Users/robertndungu/.local/share/wger/media'
+MEDIA_ROOT = '/app/.local/share/wger/media'
 MEDIA_URL = '/media/'
 
 # Allow all hosts to access the application. Change if used in production.
 ALLOWED_HOSTS = '*'
 
 # This might be a good idea if you setup memcached
-# SESSION_ENGINE = "django.contrib.sessions.backends.cache"
+#SESSION_ENGINE = "django.contrib.sessions.backends.cache"
 
 # Configure a real backend in production
 if DEBUG:
@@ -57,4 +56,4 @@ if DEBUG:
 WGER_SETTINGS['EMAIL_FROM'] = 'wger Workout Manager <wger@example.com>'
 
 # Your twitter handle, if you have one for this instance.
-# WGER_SETTINGS['TWITTER'] = ''
+#WGER_SETTINGS['TWITTER'] = ''
