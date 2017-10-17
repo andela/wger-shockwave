@@ -14,6 +14,7 @@
 #
 # You should have received a copy of the GNU Affero General Public License
 
+
 import sys
 import time
 import logging
@@ -26,29 +27,20 @@ from invoke import task
 
 import django
 from django.utils.crypto import get_random_string
-from django.core.management import (call_command, execute_from_command_line)
+from django.core.management import (
+    call_command,
+    execute_from_command_line
+)
 
 logger = logging.getLogger(__name__)
 
 
-@task(help={
-    'address':
-    'Address to bind to. Default: localhost',
-    'port':
-    'Port to use. Default: 8000',
-    'browser':
-    'Whether to open the application in a browser window. Default: false',
-    'settings-path':
-    'Path to settings file (absolute path recommended). Leave empty for default',
-    'extra-args':
-    'Additional arguments to pass to the builtin server. Pass as string: "--arg1 --arg2=value". Default: none'
-})
-def start_wger(context,
-               address='localhost',
-               port=8000,
-               browser=False,
-               settings_path=None,
-               extra_args=''):
+@task(help={'address': 'Address to bind to. Default: localhost',
+            'port': 'Port to use. Default: 8000',
+            'browser': 'Whether to open the application in a browser window. Default: false',
+            'settings-path': 'Path to settings file (absolute path recommended). Leave empty for default',
+            'extra-args': 'Additional arguments to pass to the builtin server. Pass as string: "--arg1 --arg2=value". Default: none'})
+def start_wger(context, address='localhost', port=8000, browser=False, settings_path=None, extra_args=''):
     '''
     Start the application using django's built in webserver
     '''
@@ -66,20 +58,12 @@ def start_wger(context,
     execute_from_command_line(argv)
 
 
-@task(help={
-    'settings-path':
-    'Path to settings file (absolute path recommended). Leave empty for default',
-    'database-path':
-    'Path to sqlite database (absolute path recommended). Leave empty for default',
-    'address':
-    'Address to use. Default: localhost',
-    'port':
-    'Port to use. Default: 8000',
-    'browser':
-    'Whether to open the application in a browser window. Default: false',
-    'start-server':
-    'Whether to start the development server. Default: true'
-})
+@task(help={'settings-path': 'Path to settings file (absolute path recommended). Leave empty for default',
+            'database-path': 'Path to sqlite database (absolute path recommended). Leave empty for default',
+            'address': 'Address to use. Default: localhost',
+            'port': 'Port to use. Default: 8000',
+            'browser': 'Whether to open the application in a browser window. Default: false',
+            'start-server': 'Whether to start the development server. Default: true'})
 def bootstrap_wger(context,
                    settings_path=None,
                    database_path=None,
@@ -102,11 +86,7 @@ def bootstrap_wger(context,
     if settings_path is None:
         settings_path = get_user_config_path('wger', 'settings.py')
     if not os.path.exists(settings_path):
-        create_settings(
-            context,
-            settings_path=settings_path,
-            database_path=database_path,
-            url=url)
+        create_settings(context, settings_path=settings_path, database_path=database_path, url=url)
 
     # Find the path to the settings and setup the django environment
     setup_django_environment(settings_path)
@@ -122,40 +102,24 @@ def bootstrap_wger(context,
     os.chdir(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'wger'))
     context.run('npm install bower')
     os.chdir(os.path.dirname(os.path.abspath(__file__)))
-    print("***** {}".format(os.path.dirname(os.path.abspath(__file__))))
     call_command('bower', 'install')
 
     # Start the webserver
     if start_server:
         print('*** Bootstraping complete, starting application')
-        start_wger(
-            address=address,
-            port=port,
-            browser=browser,
-            settings_path=settings_path)
+        start_wger(address=address, port=port, browser=browser, settings_path=settings_path)
 
 
-@task(help={
-    'settings-path':
-    'Path to settings file (absolute path recommended). Leave empty for default',
-    'database-path':
-    'Path to sqlite database (absolute path recommended). Leave empty for default',
-    'database-type':
-    'Database type to use. Supported: sqlite3, postgresql. Default: sqlite3',
-    'key-length':
-    'Lenght of the generated secret key. Default: 50'
-})
-def create_settings(context,
-                    settings_path=None,
-                    database_path=None,
-                    url=None,
-                    database_type='sqlite3',
-                    key_length=50):
+@task(help={'settings-path': 'Path to settings file (absolute path recommended). Leave empty for default',
+            'database-path': 'Path to sqlite database (absolute path recommended). Leave empty for default',
+            'database-type': 'Database type to use. Supported: sqlite3, postgresql. Default: sqlite3',
+            'key-length': 'Lenght of the generated secret key. Default: 50'})
+def create_settings(context, settings_path=None, database_path=None, url=None, database_type='sqlite3', key_length=50):
     '''
     Creates a local settings file
     '''
     if settings_path is None:
-        settings_path = get_user_config_path('wger', 'settings.py')
+        settings_path = './wger/settings.py'
 
     settings_module = os.path.dirname(settings_path)
     print("*** Creating settings file at {0}".format(settings_module))
@@ -171,8 +135,7 @@ def create_settings(context,
         url = 'http://localhost:8000'
 
     # Fill in the config file template
-    settings_template = os.path.join(
-        os.path.dirname(os.path.abspath(__file__)), 'wger', 'settings.tpl')
+    settings_template = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'wger', 'settings.tpl')
     with open(settings_template, 'r') as settings_file:
         settings_content = settings_file.read()
 
@@ -194,20 +157,18 @@ def create_settings(context,
 
     # Create a random SECRET_KEY to put it in the settings.
     # from django.core.management.commands.startproject
-    secret_key = get_random_string(
-        key_length, 'abcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*(-_=+)')
+    secret_key = get_random_string(key_length, 'abcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*(-_=+)')
 
-    settings_content = settings_content.format(
-        dbname=dbname,
-        dbpath=dbpath_value,
-        dbengine=dbengine,
-        dbuser=dbuser,
-        dbpassword=dbpassword,
-        dbhost=dbhost,
-        dbport=dbport,
-        default_key=secret_key,
-        siteurl=url,
-        media_folder_path=media_folder_path)
+    settings_content = settings_content.format(dbname=dbname,
+                                               dbpath=dbpath_value,
+                                               dbengine=dbengine,
+                                               dbuser=dbuser,
+                                               dbpassword=dbpassword,
+                                               dbhost=dbhost,
+                                               dbport=dbport,
+                                               default_key=secret_key,
+                                               siteurl=url,
+                                               media_folder_path=media_folder_path)
 
     if not os.path.exists(settings_module):
         os.makedirs(settings_module)
@@ -219,10 +180,7 @@ def create_settings(context,
         settings_file.write(settings_content)
 
 
-@task(help={
-    'settings-path':
-    'Path to settings file (absolute path recommended). Leave empty for default'
-})
+@task(help={'settings-path': 'Path to settings file (absolute path recommended). Leave empty for default'})
 def create_or_reset_admin(context, settings_path=None):
     '''
     Creates an admin user or resets the password for an existing one
@@ -235,7 +193,7 @@ def create_or_reset_admin(context, settings_path=None):
     # the settings module during import
     from wger.manager.models import User
     try:
-        User.objects.get(username="admin")
+        admin = User.objects.get(username="admin")
         print("*** Password for user admin was reset to 'admin'")
     except User.DoesNotExist:
         print("*** Created default admin user")
@@ -248,10 +206,7 @@ def create_or_reset_admin(context, settings_path=None):
     call_command("loaddata", path + "users.json")
 
 
-@task(help={
-    'settings-path':
-    'Path to settings file (absolute path recommended). Leave empty for default'
-})
+@task(help={'settings-path': 'Path to settings file (absolute path recommended). Leave empty for default'})
 def migrate_db(context, settings_path=None):
     '''
     Run all database migrations
@@ -259,14 +214,11 @@ def migrate_db(context, settings_path=None):
 
     # Find the path to the settings and setup the django environment
     setup_django_environment(settings_path)
-    call_command("createcachetable")
+
     call_command("migrate")
 
 
-@task(help={
-    'settings-path':
-    'Path to settings file (absolute path recommended). Leave empty for default'
-})
+@task(help={'settings-path': 'Path to settings file (absolute path recommended). Leave empty for default'})
 def load_fixtures(context, settings_path=None):
     '''
     Loads all fixtures
@@ -274,6 +226,7 @@ def load_fixtures(context, settings_path=None):
 
     # Find the path to the settings and setup the django environment
     setup_django_environment(settings_path)
+
 
     # os.chdir(os.path.dirname(inspect.stack()[0][1]))
     # current_dir = os.path.join(os.getcwd(), 'wger')
@@ -327,11 +280,9 @@ def config_location(context):
     Returns the default location for the settings file and the data folder
     '''
     print('Default locations:')
-    print('* settings:      {0}'.format(
-        get_user_config_path('wger', 'settings.py')))
+    print('* settings:      {0}'.format(get_user_config_path('wger', 'settings.py')))
     print('* media folder:  {0}'.format(get_user_data_path('wger', 'media')))
-    print('* database path: {0}'.format(
-        get_user_data_path('wger', 'database.sqlite')))
+    print('* database path: {0}'.format(get_user_data_path('wger', 'database.sqlite')))
 
 
 #
@@ -348,9 +299,9 @@ def get_user_data_path(*args):
     if sys.platform == "win32":
         return win32_get_app_data_path(*args)
 
-    data_home = os.environ.get('XDG_DATA_HOME',
-                               os.path.join(
-                                   os.path.expanduser('~'), '.local', 'share'))
+    data_home = os.environ.get(
+        'XDG_DATA_HOME', os.path.join(
+            os.path.expanduser('~'), '.local', 'share'))
 
     return os.path.join(data_home, *args)
 
@@ -359,9 +310,8 @@ def get_user_config_path(*args):
     if sys.platform == "win32":
         return win32_get_app_data_path(*args)
 
-    config_home = os.environ.get('XDG_CONFIG_HOME',
-                                 os.path.join(
-                                     os.path.expanduser('~'), '.config'))
+    config_home = os.environ.get(
+        'XDG_CONFIG_HOME', os.path.join(os.path.expanduser('~'), '.config'))
 
     return os.path.join(config_home, *args)
 
@@ -369,8 +319,9 @@ def get_user_config_path(*args):
 def win32_get_app_data_path(*args):
     shell32 = ctypes.WinDLL("shell32.dll")
     SHGetFolderPath = shell32.SHGetFolderPathW
-    SHGetFolderPath.argtypes = (ctypes.c_void_p, ctypes.c_int, ctypes.c_void_p,
-                                ctypes.c_uint32, ctypes.c_wchar_p)
+    SHGetFolderPath.argtypes = (
+        ctypes.c_void_p, ctypes.c_int, ctypes.c_void_p, ctypes.c_uint32,
+        ctypes.c_wchar_p)
     SHGetFolderPath.restype = ctypes.c_uint32
 
     CSIDL_LOCAL_APPDATA = 0x001c
@@ -424,7 +375,7 @@ def setup_django_environment(settings_path):
         sys.exit(1)
     settings_module_dir = os.path.dirname(settings_path)
     sys.path.append(settings_module_dir)
-    os.environ[django.conf.ENVIRONMENT_VARIABLE] = '%s' % settings_module_name
+    os.environ[django.conf.ENVIRONMENT_VARIABLE] = 'wger.%s' % settings_module_name
     django.setup()
 
 
