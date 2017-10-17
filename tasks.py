@@ -120,8 +120,8 @@ def create_settings(context, settings_path=None, database_path=None, url=None, d
     '''
     if settings_path is None:
         settings_path = get_user_config_path('wger', 'settings.py')
-
     settings_module = os.path.dirname(settings_path)
+    print(settings_module)
     print("*** Creating settings file at {0}".format(settings_module))
 
     if database_path is None:
@@ -302,7 +302,7 @@ def get_user_data_path(*args):
     data_home = os.environ.get(
         'XDG_DATA_HOME', os.path.join(
             os.path.expanduser('~'), '.local', 'share'))
-
+    print(data_home)
     return os.path.join(data_home, *args)
 
 
@@ -312,7 +312,7 @@ def get_user_config_path(*args):
 
     config_home = os.environ.get(
         'XDG_CONFIG_HOME', os.path.join(os.path.expanduser('~'), '.config'))
-
+    print(config_home)
     return os.path.join(config_home, *args)
 
 
