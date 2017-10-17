@@ -40,6 +40,7 @@ class GymConfigTestCase(WorkoutManagerTestCase):
         gym_config.save()
 
         # Register
+<<<<<<< HEAD
         registration_data = {
             'username': 'myusername',
             'password1': 'Qwerty09876',
@@ -47,6 +48,13 @@ class GymConfigTestCase(WorkoutManagerTestCase):
             'email': 'my.email@example.com',
             'g-recaptcha-response': 'PASSED',
         }
+=======
+        registration_data = {'username': 'myusername',
+                             'password1': 'Qwerty09876',
+                             'password2': 'Qwerty09876',
+                             'email': 'my.email@example.com',
+                             'g-recaptcha-response': 'PASSED', }
+>>>>>>> chore:Fixed test that were failing.
         self.client.post(reverse('core:user:registration'), registration_data)
         new_user = User.objects.all().last()
 
@@ -63,6 +71,7 @@ class GymConfigTestCase(WorkoutManagerTestCase):
         gym_config.save()
 
         # Register
+<<<<<<< HEAD
         registration_data = {
             'username': 'myusername',
             'password1': 'Qwerty09876',
@@ -70,6 +79,13 @@ class GymConfigTestCase(WorkoutManagerTestCase):
             'email': 'my.email@example.com',
             'g-recaptcha-response': 'PASSED',
         }
+=======
+        registration_data = {'username': 'myusername',
+                             'password1': 'Qwerty09876',
+                             'password2': 'Qwerty09876',
+                             'email': 'my.email@example.com',
+                             'g-recaptcha-response': 'PASSED', }
+>>>>>>> chore:Fixed test that were failing.
         self.client.post(reverse('core:user:registration'), registration_data)
 
         new_user = User.objects.all().last()

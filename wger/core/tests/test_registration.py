@@ -62,6 +62,7 @@ class RegistrationTestCase(WorkoutManagerTestCase):
         self.assertEqual(response.status_code, 200)
 
         # Fill in the registration form
+<<<<<<< HEAD
         registration_data = {
             'username': 'myusername',
             'password1': 'Qwerty09876',
@@ -69,6 +70,13 @@ class RegistrationTestCase(WorkoutManagerTestCase):
             'email': 'not an email',
             'g-recaptcha-response': 'PASSED',
         }
+=======
+        registration_data = {'username': 'myusername',
+                             'password1': 'Qwerty09876',
+                             'password2': 'Qwerty09876',
+                             'email': 'not an email',
+                             'g-recaptcha-response': 'PASSED', }
+>>>>>>> chore:Fixed test that were failing.
         count_before = User.objects.count()
 
         # Wrong email
@@ -120,6 +128,7 @@ class RegistrationTestCase(WorkoutManagerTestCase):
             self.assertEqual(response.status_code, 302)
 
             # Fill in the registration form
+<<<<<<< HEAD
             registration_data = {
                 'username': 'myusername',
                 'password1': 'Qwerty09876',
@@ -127,6 +136,13 @@ class RegistrationTestCase(WorkoutManagerTestCase):
                 'email': 'my.email@example.com',
                 'g-recaptcha-response': 'PASSED',
             }
+=======
+            registration_data = {'username': 'myusername',
+                                 'password1': 'Qwerty09876',
+                                 'password2': 'Qwerty09876',
+                                 'email': 'my.email@example.com',
+                                 'g-recaptcha-response': 'PASSED', }
+>>>>>>> chore:Fixed test that were failing.
             count_before = User.objects.count()
 
             response = self.client.post(
