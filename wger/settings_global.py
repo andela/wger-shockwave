@@ -138,12 +138,12 @@ MIDDLEWARE_CLASSES = (
 )
 
 AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend',
     'wger.utils.helpers.EmailAuthBackend',
     'social_core.backends.open_id.OpenIdAuth',
     'social_core.backends.google.GoogleOAuth2',
     'social_core.backends.twitter.TwitterOAuth',
     'social_core.backends.facebook.FacebookOAuth2',
-    'django.contrib.auth.backends.ModelBackend',
 )
 
 TEMPLATES = [
@@ -442,4 +442,3 @@ SOCIAL_AUTH_GOOGLE_OAUTH2_SCOPE = ['email']
 
 SOCIAL_AUTH_LOGIN_ERROR_URL = '/en/user/login/'
 SOCIAL_AUTH_RAISE_EXCEPTIONS = False
-DEBUG = False

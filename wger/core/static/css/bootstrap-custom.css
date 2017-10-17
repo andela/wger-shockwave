@@ -20,8 +20,6 @@
  * Adapt some of bootstrap's CSS classes and styles
  *
  **************************************************************/
-@import url("../bootstrap-social-gh-pages/css/bootstrap.css");
-
 html {
   font-family: "Open Sans Light", Arial, Helvetica, sans-serif;
   -webkit-text-size-adjust: 100%;
@@ -243,6 +241,19 @@ fieldset[disabled] .btn-default.active {
     padding: 10px;
     margin: auto;
     width: 50%;
+<<<<<<< HEAD
+=======
+    align-content: center
+}
+.fb-margin{
+    margin-right: 7px;
+}
+.gle-margin{
+    margin-right: 7px;
+}
+.space{
+    height: 9em;
+>>>>>>> chore:Fix Readme
 }
 
 
