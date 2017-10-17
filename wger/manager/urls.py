@@ -40,6 +40,8 @@ patterns_workout = [
     url(r'^(?P<pk>\d+)/copy/$', workout.copy_workout, name='copy'),
     url(r'^(?P<pk>\d+)/edit/$', workout.WorkoutEditView.as_view(),
         name='edit'),
+    url(r'^(?P<pk>\d+)/export/$', workout.UsersView.as_view(),
+        name='export'),
     url(r'^(?P<pk>\d+)/delete/$',
         workout.WorkoutDeleteView.as_view(),
         name='delete'),
