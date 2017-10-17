@@ -998,7 +998,8 @@
             "category": 8,
             "uuid": "ff454f5a-70ee-40fb-9200-5e7e42960ef0",
             "muscles": [
-                1
+                1,
+                19
             ],
             "license": 1,
             "name": "Hammercurls"
@@ -1824,7 +1825,8 @@
             "category": 8,
             "uuid": "6dcc9adb-939c-4581-9e44-d0d73753997b",
             "muscles": [
-                1
+                1,
+                19
             ],
             "license": 1,
             "name": "Hammercurls"
@@ -2669,7 +2671,9 @@
             "uuid": "61271a8e-6a00-4898-8dc3-ea9ef913f25e",
             "muscles": [
                 2,
-                9
+                9,
+                17,
+                18
             ],
             "license": 1,
             "name": "Upright row, SZ-bar"
@@ -2791,7 +2795,8 @@
             "category": 8,
             "uuid": "06e9de49-ac1b-45c1-b289-475118932434",
             "muscles": [
-                1
+                1,
+                19
             ],
             "license": 1,
             "name": "Hammercurls am Seil"
@@ -2880,7 +2885,8 @@
             "category": 8,
             "uuid": "5baf40e5-ea3c-4f8d-b60a-d294ee2de55b",
             "muscles": [
-                1
+                1,
+                19
             ],
             "license": 1,
             "name": "Hammercurls on cable"
@@ -3077,7 +3083,9 @@
             "uuid": "26c72fd7-d5b9-497b-be5e-cdfe9715ddac",
             "muscles": [
                 2,
-                9
+                9,
+                17,
+                18
             ],
             "license": 1,
             "name": "Upright row, on multi press"
@@ -3099,7 +3107,9 @@
             "category": 13,
             "uuid": "5345766a-c092-457a-aa21-8ee6ffa855d4",
             "muscles": [
-                2
+                2,
+                17,
+                18
             ],
             "license": 1,
             "name": "Lateral raises"
@@ -3119,7 +3129,9 @@
             "category": 13,
             "uuid": "79a3a34c-262f-4cae-b827-b5a85b11b860",
             "muscles": [
-                2
+                2,
+                17,
+                18
             ],
             "license": 1,
             "name": "Lateral raises on cable, one armed"
@@ -4590,7 +4602,10 @@
             "creation_date": "2014-03-09",
             "category": 13,
             "uuid": "53ca25b3-61d9-4f72-bfdb-492b83484ff5",
-            "muscles": [],
+            "muscles": [
+                17,
+                18
+            ],
             "license": 1,
             "name": "Arnold Shoulder Press"
         },
@@ -4640,7 +4655,9 @@
             "category": 13,
             "uuid": "89e6d2ea-9a17-4a77-9a52-d5bcf39d57fd",
             "muscles": [
-                2
+                2,
+                17,
+                18
             ],
             "license": 1,
             "name": "Military Press"
@@ -4731,7 +4748,9 @@
             "category": 13,
             "uuid": "a87de062-2101-4dc4-adda-328b4c722c6d",
             "muscles": [
-                2
+                2,
+                17,
+                18
             ],
             "license": 1,
             "name": "Front raises"
@@ -6214,7 +6233,9 @@
             "uuid": "97d7eba2-681f-4b14-8e78-7d9b5865d336",
             "muscles": [
                 2,
-                9
+                9,
+                17,
+                18
             ],
             "license": 2,
             "name": "Upright Row w/ Dumbbells"
@@ -6307,7 +6328,9 @@
             "creation_date": "2015-03-07",
             "category": 8,
             "uuid": "1ec5352f-41da-408b-8e6c-3fef79475847",
-            "muscles": [],
+            "muscles": [
+                19
+            ],
             "license": 2,
             "name": "Hand Grip"
         },
@@ -7505,7 +7528,9 @@
             "creation_date": "2016-02-15",
             "category": 8,
             "uuid": "22eb7cf6-bf6c-42c3-a1c8-85c2fc2ed931",
-            "muscles": [],
+            "muscles": [
+                19
+            ],
             "license": 2,
             "name": "Standing Rope Forearm"
         },

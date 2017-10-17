@@ -1,0 +1,11 @@
+[flake8]
+ignore = E501
+exclude = 
+    .git,
+    __pycache__,
+    build,
+    migrations,
+    settings.py,
+    urls.py,
+    conf.py,
+    pdf.py
