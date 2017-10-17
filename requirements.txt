@@ -3,33 +3,16 @@ Babel==2.5.1
 bleach==2.1.1
 certifi==2017.7.27.1
 chardet==3.0.4
-<<<<<<< HEAD
-<<<<<<< HEAD
-Django==1.9.13
-=======
-=======
->>>>>>> chore:Adding python-social-auth package
 coverage==4.4.1
 defusedxml==0.5.0
 Django==1.9.13
 django-app-namespace-template-loader==0.4.1
-<<<<<<< HEAD
->>>>>>> chore:Adding python-social-auth package
-=======
->>>>>>> chore:Adding python-social-auth package
 django-appconf==1.0.2
 django-bootstrap-breadcrumbs==0.8.2
 django-bower==5.2.0
 django-compressor==2.2
 django-cors-headers==2.1.0
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
 django-debug-toolbar==1.8
->>>>>>> chore:Adding python-social-auth package
-=======
-django-debug-toolbar==1.8
->>>>>>> chore:Adding python-social-auth package
 django-filter==1.0.4
 django-formtools==1.0
 django-mobile==0.7.0
@@ -39,34 +22,14 @@ django-tastypie==0.14.0
 djangorestframework==3.2.5
 docutils==0.14
 easy-thumbnails==2.4.2
-<<<<<<< HEAD
-<<<<<<< HEAD
-gunicorn==19.7.1
-html5lib==1.0b10
-=======
 html5lib==1.0b10
 httplib2==0.10.3
->>>>>>> chore:Adding python-social-auth package
-=======
-html5lib==1.0b10
-httplib2==0.10.3
->>>>>>> chore:Adding python-social-auth package
 icalendar==3.11.7
 idna==2.6
 imagesize==0.7.1
 invoke==0.21.0
 Jinja2==2.9.6
 MarkupSafe==1.0
-<<<<<<< HEAD
-<<<<<<< HEAD
-olefile==0.44
-Pillow==4.3.0
-Pygments==2.2.0
-python-dateutil==2.6.1
-python-mimeparse==1.6.0
-=======
-=======
->>>>>>> chore:Adding python-social-auth package
 oauth2client==4.1.2
 oauthlib==2.0.4
 olefile==0.44
@@ -79,28 +42,10 @@ PyJWT==1.5.3
 python-dateutil==2.6.1
 python-mimeparse==1.6.0
 python3-openid==3.1.0
-<<<<<<< HEAD
->>>>>>> chore:Adding python-social-auth package
-=======
->>>>>>> chore:Adding python-social-auth package
 pytz==2017.2
 rcssmin==1.0.6
 reportlab==3.4.0
 requests==2.18.4
-<<<<<<< HEAD
-<<<<<<< HEAD
-rjsmin==1.0.12
-six==1.11.0
-snowballstemmer==1.2.1
-Sphinx==1.6.4
-sphinxcontrib-websupport==1.0.1
-typing==3.6.2
-urllib3==1.22
-webencodings==0.5.1
-whitenoise==3.3.1
-=======
-=======
->>>>>>> chore:Adding python-social-auth package
 requests-oauthlib==0.8.0
 rjsmin==1.0.12
 rsa==3.4.2
@@ -114,7 +59,3 @@ sqlparse==0.2.4
 uritemplate==3.0.0
 urllib3==1.22
 webencodings==0.5.1
-<<<<<<< HEAD
->>>>>>> chore:Adding python-social-auth package
-=======
->>>>>>> chore:Adding python-social-auth package
