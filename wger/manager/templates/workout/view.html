@@ -48,15 +48,24 @@
         border-style: solid;
         border-color: black transparent transparent transparent;
     }
-    
+
     .export-button:hover .tooltiptext {
         visibility: visible;
         bottom: 35%;
-        margin-left: -55px;
+        margin-left: -55px;    
     }
 </style>
+        
+{% endblock %}
 
-{% endblock %} {# #} {# Content #} {# #} {% block content %} {% if workout.comment %}
+
+{#         #}
+{# Content #}
+{#         #}
+{% block content %}
+
+
+{% if workout.comment %}
 <p>
     <strong>{% trans "Goal" %}:</strong> {{workout.comment}}
 </p>
@@ -230,6 +239,20 @@
                 <span class="tooltiptext">You have no exercises on your workouts !</span>
                 <span class="glyphicon glyphicon-export"></span> {% trans "Export workout" %}
             </a>
+            {% endif %}
+        </li>
+        <li>
+            {% if state %}
+            <a id="po" href="{% url 'manager:workout:export' workout.id %}" class="wger-modal-dialog">
+               <span class="glyphicon glyphicon-export"></span>
+               {% trans "Export workout" %}
+            </a>
+            {% else%}
+            <a class='export-button'>
+                    <span class="tooltiptext">You have no exercises on your workouts !</span>
+                    <span class="glyphicon glyphicon-export"></span>
+                    {% trans "Export workout" %}
+                 </a>
             {% endif %}
         </li>
         {% if is_owner %}
