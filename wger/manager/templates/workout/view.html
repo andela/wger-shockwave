@@ -43,6 +43,37 @@ $(document).ready(function() {
     wgerToggleComments();
  });
 </script>
+<style>
+    .export-button .tooltiptext {
+        visibility: hidden;
+        width: 300px;
+        background-color: black;
+        color: #fff;
+        text-align: center;
+        padding: 5px 0;
+        border-radius: 6px;
+        position: absolute;
+        z-index: 1;
+    }
+    
+    .export-button .tooltiptext::after {
+        content: "";
+        position: absolute;
+        top: 100%;
+        left: 50%;
+        margin-left: -5px;
+        border-width: 5px;
+        border-style: solid;
+        border-color: black transparent transparent transparent;
+    }
+
+    .export-button:hover .tooltiptext {
+        visibility: visible;
+        bottom: 35%;
+        margin-left: -55px;    
+    }
+</style>
+        
 {% endblock %}
 
 
@@ -250,6 +281,20 @@ an appointment for each training day with the appropriate exercises.{% endblockt
                <span class="{% fa_class 'clone' %}"></span>
                {% trans "Make a copy of this workout" %}
             </a>
+        </li>
+        <li>
+            {% if state %}
+            <a id="po" href="{% url 'manager:workout:export' workout.id %}" class="wger-modal-dialog">
+               <span class="glyphicon glyphicon-export"></span>
+               {% trans "Export workout" %}
+            </a>
+            {% else%}
+            <a class='export-button'>
+                    <span class="tooltiptext">You have no exercises on your workouts !</span>
+                    <span class="glyphicon glyphicon-export"></span>
+                    {% trans "Export workout" %}
+                 </a>
+            {% endif %}
         </li>
         {% if is_owner %}
         <li role="separator" class="divider"></li>
