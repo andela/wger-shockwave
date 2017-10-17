@@ -119,7 +119,7 @@ def create_settings(context, settings_path=None, database_path=None, url=None, d
     Creates a local settings file
     '''
     if settings_path is None:
-        settings_path = '/app/wger/settings.py'
+        settings_path = get_user_config_path('wger', 'settings.py')
 
     settings_module = os.path.dirname(settings_path)
     print("*** Creating settings file at {0}".format(settings_module))
