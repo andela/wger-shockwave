@@ -66,11 +66,14 @@ def view(request, pk):
     workout = get_object_or_404(Workout, pk=pk)
     user = workout.user
     is_owner = request.user == user
+    state = False
 
     if not is_owner and not user.userprofile.ro_access:
         return HttpResponseForbidden()
 
     canonical = workout.canonical_representation
+    if 'exercise_list' in str(canonical):
+        state = True
     uid, token = make_token(user)
 
     # Create the backgrounds that show what muscles the workout will work on
@@ -106,6 +109,7 @@ def view(request, pk):
     template_data['is_owner'] = is_owner
     template_data['owner_user'] = user
     template_data['show_shariff'] = is_owner
+    template_data['state'] = state
 
     return render(request, 'workout/view.html', template_data)
 
