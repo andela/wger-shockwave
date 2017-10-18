@@ -1,4 +1,3 @@
-python-3.6.2
 alabaster==0.7.10
 Babel==2.5.1
 bleach==2.1.1

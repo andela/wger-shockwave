@@ -1,92 +1,38 @@
-{% extends "base.html" %}
-{% load i18n staticfiles wger_extras %}
-
-{% block title %}{% trans "Login" %}{% endblock %}
-
-{% block header %}
-{% endblock %}
-
-{% block content %}
+{% extends "base.html" %} {% load i18n staticfiles wger_extras %} {% block title %}{% trans "Login" %}{% endblock %} {% block header %} {% endblock %} {% block content %}
 <div class="login-area">
     <div class="row">
-<<<<<<< HEAD
-=======
         <div class="cols-md-12 social-header">
             <h4>Login With</h4>
         </div>
         <div class="cols-md-12">
-        <p>
-            <center>
-                <div>
-                    <a href="{% url "social:begin" "facebook" %}" title="Facebook" class="btn btn-lg btn-social-icon btn-facebook fb-margin">
-                        <span class="fa fa-facebook"></span></a>
-                    <a href="{% url "social:begin" "google-oauth2" %}" title="Google" class="btn btn-lg btn-social-icon btn-google gle-margin">
-                        <span class="fa fa-google"></span></a>
-                    <a href="{% url "social:begin" "twitter" %}" title="Twitter" class="btn btn-lg btn-social-icon btn-twitter">
-                        <span class="fa fa-twitter"></span></a> 
-                </div>
-            </center>
-        </p>
+            <p>
+                <center>
+                    <div>
+                        <a href="{% url 'social:begin' 'facebook' %}" title="Facebook" class="btn btn-lg btn-social-icon btn-facebook fb-margin">
+                            <span class="fa fa-facebook"></span></a>
+                        <a href="{% url 'social:begin' 'google-oauth2' %}" title="Google" class="btn btn-lg btn-social-icon btn-google gle-margin">
+                            <span class="fa fa-google"></span></a>
+                        <a href="{% url 'social:begin' 'twitter' %}" title="Twitter" class="btn btn-lg btn-social-icon btn-twitter">
+                            <span class="fa fa-twitter"></span></a>
+                    </div>
+                </center>
+            </p>
         </div>
         <div class="cols-md-12 social-header">
             <h4>Or</h4>
         </div>
         <div class="cols-md-12">
->>>>>>> chore:Fix Readme
-        <div class="cols-md-12 form-area">
-            <form action="{% url 'core:user:login' %}{% if next %}?next={{next}}{% endif %}"
-                method="post" class="form-horizontal">
-                {% trans 'Login' as submit_text %}
-                {% render_form_fields form submit_text %}
-            </form>
-<<<<<<< HEAD
-        </div>
-    </div>
-    <div class="row">
-        <div class="cols-md-12 social-logins" >
-            <div class="row">
-                <div class="cols-md-12 social-header">
-                    <h4 >Or Login With</h4>
-                </div>
-            </div>
-            <div class="row">
-                <div class="cols-md-12 social-links">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <a href="{% url "social:begin" "facebook" %}" title="Facebook" class="btn btn-block btn-social btn-lg btn-facebook">
-                                <i class="fa fa-facebook"></i> Sign in with Facebook
-                            </a>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-12">
-                            <a href="{% url "social:begin" "google-oauth2" %}" title="Google" class="btn btn-block btn-social btn-lg btn-google">
-                                <i class="fa fa-google"></i> Sign in with Google
-                            </a>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-12">
-                            <a href="{% url "social:begin" "twitter" %}" title="Twitter" class="btn btn-block btn-social btn-lg btn-twitter">
-                                <i class="fa fa-twitter"></i> Sign in with Twitter
-                            </a>
-                        </div>
-                    </div>
-                </div>
+            <div class="cols-md-12 form-area">
+                <form action="{% url 'core:user:login' %}{% if next %}?next={{next}}{% endif %}" method="post" class="form-horizontal">
+                    {% trans 'Login' as submit_text %} {% render_form_fields form submit_text %}
+                </form>
             </div>
         </div>
     </div>
-=======
-        </div>
-    </div>
-    </div>
-    
->>>>>>> chore:Fix Readme
+
 </div>
 
-{% endblock %}
-
-{% block sidebar %}
+{% endblock %} {% block sidebar %}
 
 <div class="row no-account">
     <div class="cols-md-12 space">
@@ -95,8 +41,7 @@
         <h4>{% trans "No account?" %}</h4>
         <p>
             <a href="{% url 'core:user:registration' %}" class="btn btn-block btn-default">
-                <span class="{% fa_class 'sign-in' %}"></span>
-                {% trans "Register" %}
+                <span class="{% fa_class 'sign-in' %}"></span> {% trans "Register" %}
             </a>
         </p>
     </div>
@@ -104,8 +49,7 @@
         <h4>{% trans "Forgot password?" %}</h4>
         <p>
             <a href="{% url 'core:user:password_reset' %}" class="btn btn-block btn-default">
-                <span class="{% fa_class 'key' %}"></span>
-                {% trans "Reset password" %}
+                <span class="{% fa_class 'key' %}"></span> {% trans "Reset password" %}
             </a>
         </p>
     </div>
