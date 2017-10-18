@@ -31,7 +31,7 @@ from wger.core.models import (RepetitionUnit, WeightUnit)
 from wger.manager.models import (Workout, WorkoutSession, WorkoutLog, Schedule,
                                  Day)
 from wger.manager.forms import (WorkoutForm, WorkoutSessionHiddenFieldsForm,
-                                WorkoutCopyForm)
+                                WorkoutCopyForm, UserForm)
 from wger.utils.generic_views import (WgerFormMixin, WgerDeleteMixin)
 from wger.utils.helpers import make_token
 
@@ -209,6 +209,14 @@ def add(request):
     workout.save()
 
     return HttpResponseRedirect(workout.get_absolute_url())
+
+def export(request, pk):
+    template_data = {}
+    template_data['title'] = _('Select User to send to')
+    template_data['form'] = UserForm()
+    template_data['submit_text'] = _('Send')
+    template_data['extend_template'] = 'base_empty.html' if request.is_ajax() else 'base.html'
+    return render(request, 'form.html', template_data)
 
 
 class WorkoutDeleteView(WgerDeleteMixin, LoginRequiredMixin, DeleteView):
