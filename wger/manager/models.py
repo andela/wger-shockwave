@@ -922,6 +922,7 @@ class ExportWorkouts(models.Model):
     User id for the user receiving the workout
     '''
     workout = models.ForeignKey(Workout, verbose_name=_('Workout'))
+    print("Here")
     def get_owner_object(self):
         '''
         Returns the object
