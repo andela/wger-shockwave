@@ -18,6 +18,7 @@ from tastypie.authentication import ApiKeyAuthentication
 from tastypie.constants import ALL
 from tastypie.resources import ModelResource
 
+from django.contrib.auth.models import User
 from wger.utils.resources import UserObjectsOnlyAuthorization
 from wger.core.models import (UserProfile, Language, DaysOfWeek, License)
 
@@ -72,4 +73,14 @@ class LicenseResource(ModelResource):
             "full_name": ALL,
             "short_name": ALL,
             "url": ALL
+        }
+
+class AllUserResource(ModelResource):
+    '''
+    Reseource to return all users
+    '''
+    class Meta:
+        queryset = User.objects.all()
+        filtering = {
+            'id': ALL,
         }
