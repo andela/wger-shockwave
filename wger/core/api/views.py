@@ -20,11 +20,12 @@ from rest_framework import viewsets
 from rest_framework.response import Response
 from rest_framework.decorators import detail_route
 
+from django.contrib.auth.models import User
 from wger.core.models import (UserProfile, Language, DaysOfWeek, License,
                               RepetitionUnit, WeightUnit)
 from wger.core.api.serializers import (
     UsernameSerializer, LanguageSerializer, DaysOfWeekSerializer,
-    LicenseSerializer, RepetitionUnitSerializer, WeightUnitSerializer)
+    LicenseSerializer, RepetitionUnitSerializer, WeightUnitSerializer, AllUsersSerializer)
 from wger.core.api.serializers import UserprofileSerializer
 from wger.utils.permissions import UpdateOnlyPermission, WgerPermission
 
@@ -108,3 +109,11 @@ class WeightUnitViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = WeightUnitSerializer
     ordering_fields = '__all__'
     filter_fields = ('name', )
+
+class AllUserViewSet(viewsets.ReadOnlyModelViewSet):
+    '''
+    API endpoint for users objects
+    '''
+    queryset = User.objects.all()
+    serializer_class = AllUsersSerializer
+    ordering_fields= '__all__'
