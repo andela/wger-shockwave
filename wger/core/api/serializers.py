@@ -17,6 +17,7 @@
 
 from rest_framework import serializers
 
+from django.contrib.auth.models import User
 from wger.core.models import (UserProfile, Language, DaysOfWeek, License,
                               RepetitionUnit, WeightUnit)
 
@@ -80,3 +81,10 @@ class WeightUnitSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = WeightUnit
+
+class AllUsersSerializer(serializers.ModelSerializer):
+    '''
+    Users Serializer
+    '''
+    class Meta:
+        model = User

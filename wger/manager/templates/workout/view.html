@@ -1,47 +1,29 @@
-{% extends "base.html" %}
-{% load i18n %}
-{% load staticfiles %}
-{% load wger_extras %}
-
-{#           #}
-{# Opengraph #}
-{#           #}
-{% block opengraph %}
-    {{ block.super }}
-    <meta property="og:title" content="{% trans 'Workout' %}">
-    <meta property="og:description" content="{{ workout }} / {{owner_user.username}}">
-{% endblock %}
-
-
-{#       #}
-{# Title #}
-{#       #}
-{% block title %}{% trans "Workout" %} – {{ workout.creation_date }}{% endblock %}
-
-
-{#        #}
-{# Header #}
-{#        #}
-{% block header %}
+{% extends "base.html" %} {% load i18n %} {% load staticfiles %} {% load wger_extras %} {# #} {# Opengraph #} {# #} {% block opengraph %} {{ block.super }}
+<meta property="og:title" content="{% trans 'Workout' %}">
+<meta property="og:description" content="{{ workout }} / {{owner_user.username}}"> {% endblock %} {# #} {# Title #} {# #} {% block title %}{% trans "Workout" %} – {{ workout.creation_date }}{% endblock %} {# #} {# Header #} {# #} {% block header %}
 <script>
-function wgerCustomModalInit()
-{
-    // Set up the edit set functions on modal dialogs
-    wgerInitEditSet();
-}
+    function wgerCustomModalInit() {
+        // Set up the edit set functions on modal dialogs
+        wgerInitEditSet();
 
-$(document).ready(function() {
-    // Allow the sets to be sortable
-    wgerSetupSortable();
 
-    // Show/Hide the comments to the exercises
-    {% if user.userprofile.show_comments %}
-        $(".exercise-comments").show();
-    {% else %}
-        $(".exercise-comments").hide();
-    {% endif %}
-    wgerToggleComments();
- });
+    }
+
+    $(document).ready(function() {
+        // Allow the sets to be sortable
+        wgerSetupSortable();
+
+        // Show/Hide the comments to the exercises
+        { %
+            if user.userprofile.show_comments %
+        }
+        $(".exercise-comments").show(); { %
+            else %
+        }
+        $(".exercise-comments").hide(); { % endif %
+        }
+        wgerToggleComments();
+    });
 </script>
 <style>
     .export-button .tooltiptext {
@@ -66,59 +48,35 @@ $(document).ready(function() {
         border-style: solid;
         border-color: black transparent transparent transparent;
     }
-
+    
     .export-button:hover .tooltiptext {
         visibility: visible;
         bottom: 35%;
-        margin-left: -55px;    
+        margin-left: -55px;
     }
 </style>
-        
-{% endblock %}
 
-
-{#         #}
-{# Content #}
-{#         #}
-{% block content %}
-
-
-{% if workout.comment %}
+{% endblock %} {# #} {# Content #} {# #} {% block content %} {% if workout.comment %}
 <p>
     <strong>{% trans "Goal" %}:</strong> {{workout.comment}}
 </p>
-{% endif %}
-
-{% for day in workout.canonical_representation.day_list %}
-    <div id="div-day-{{ day.obj.id }}">
-        {% render_day day.obj is_owner %}
-    </div>
-{% empty %}
-    {% if is_owner %}
-        <p>
-            <a href="{% url 'manager:day:add' workout.id %}" class="wger-modal-dialog btn btn-default btn-block">
+{% endif %} {% for day in workout.canonical_representation.day_list %}
+<div id="div-day-{{ day.obj.id }}">
+    {% render_day day.obj is_owner %}
+</div>
+{% empty %} {% if is_owner %}
+<p>
+    <a href="{% url 'manager:day:add' workout.id %}" class="wger-modal-dialog btn btn-default btn-block">
             {% trans "No days for this workout." %}
             {% trans "Add training day" %}
             </a>
-        </p>
-    {% endif %}
-{% endfor %}
-
-{% if is_owner %}
+</p>
+{% endif %} {% endfor %} {% if is_owner %}
 <p>
-    <a href="{% url 'manager:day:add' workout.id %}" class="wger-modal-dialog">{% trans "Add training day" %}</a>
-    |
+    <a href="{% url 'manager:day:add' workout.id %}" class="wger-modal-dialog">{% trans "Add training day" %}</a> |
     <a id="exercise-comments-toggle" href="{% url 'core:user:preferences' %}">{% trans "Show/Hide exercise comments" %}</a>
 </p>
-{% endif %}
-{% endblock %}
-
-
-
-{#          #}
-{# Side bar #}
-{#          #}
-{% block sidebar %}
+{% endif %} {% endblock %} {# #} {# Side bar #} {# #} {% block sidebar %}
 <h4>{% trans "Steps" %}</h4>
 
 <ol>
@@ -136,15 +94,11 @@ $(document).ready(function() {
 
 <div class="row">
     <div class="col-md-6">
-        <div id="muscle-front"
-             class="muscle-background center-block"
-             style="width: 120px; height: 220px; background-size: 120px; background-image: {% for background in muscle_backgrounds_front %}url({% static background %}){% if not forloop.last %},{% endif %}{% endfor %};">
+        <div id="muscle-front" class="muscle-background center-block" style="width: 120px; height: 220px; background-size: 120px; background-image: {% for background in muscle_backgrounds_front %}url({% static background %}){% if not forloop.last %},{% endif %}{% endfor %};">
         </div>
     </div>
     <div class="col-md-6">
-        <div id="muscle-back"
-                 class="muscle-background center-block"
-                 style="width: 120px; height: 220px; background-size: 120px; background-image: {% for background in muscle_backgrounds_back %}url({% static background %}){% if not forloop.last %},{% endif %}{% endfor %};">
+        <div id="muscle-back" class="muscle-background center-block" style="width: 120px; height: 220px; background-size: 120px; background-image: {% for background in muscle_backgrounds_back %}url({% static background %}){% if not forloop.last %},{% endif %}{% endfor %};">
         </div>
     </div>
 </div>
@@ -159,17 +113,15 @@ $(document).ready(function() {
             </div>
             <div class="modal-body">
                 <p>{% trans "Export this workout as a calendar file." %}</p>
-                <p>{% blocktrans %}You can then import the file it into your calendar
-application for example google calendar, outlook or iCal. This will create
-an appointment for each training day with the appropriate exercises.{% endblocktrans %}</p>
+                <p>{% blocktrans %}You can then import the file it into your calendar application for example google calendar, outlook or iCal. This will create an appointment for each training day with the appropriate exercises.{% endblocktrans %}</p>
                 <p>
-                <a href="{% url 'manager:workout:ical' workout.id uid token %}" class="btn btn-block btn-default">
+                    <a href="{% url 'manager:workout:ical' workout.id uid token %}" class="btn btn-block btn-default">
                    {% trans "Export calendar file" %}
                 </a>
                 </p>
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-default" data-dismiss="modal">{% trans "Close" %}</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">{% trans "Close" %}</button>
             </div>
         </div>
     </div>
@@ -193,12 +145,10 @@ an appointment for each training day with the appropriate exercises.{% endblockt
                         </div>
                         <div class="col-md-9" style="padding-left: 35px;">
                             <div class="radio">
-                                <input type="radio" name="pdf_type" id="id_type_log" value="log" checked>
-                                {% trans "Log" %}
+                                <input type="radio" name="pdf_type" id="id_type_log" value="log" checked> {% trans "Log" %}
                             </div>
                             <div class="radio">
-                                <input type="radio" name="pdf_type" id="id_type_table" value="table">
-                                {% trans "Table" %}
+                                <input type="radio" name="pdf_type" id="id_type_table" value="table"> {% trans "Table" %}
                             </div>
                         </div>
                     </div>
@@ -225,25 +175,18 @@ an appointment for each training day with the appropriate exercises.{% endblockt
                 </form>
 
                 <p>
-                <a href="" class="btn btn-block btn-default" id="download-pdf-button">
+                    <a href="" class="btn btn-block btn-default" id="download-pdf-button">
                    {% trans "Download" %}
                 </a>
                 </p>
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-default" data-dismiss="modal">{% trans "Close" %}</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">{% trans "Close" %}</button>
             </div>
         </div>
     </div>
 </div>
-{% endblock %}
-
-
-
-{#         #}
-{# Options #}
-{#         #}
-{% block options %}
+{% endblock %} {# #} {# Options #} {# #} {% block options %}
 <div class="btn-group">
     <button type="button" class="btn btn-primary btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         <span class="{% fa_class 'cog' %}"></span>
@@ -252,59 +195,50 @@ an appointment for each training day with the appropriate exercises.{% endblockt
     <ul class="dropdown-menu">
         <li>
             <a data-toggle="modal" data-target="#download-pdf-popup">
-                <span class="{% fa_class 'download' %}"></span>
-                {% trans "Download as PDF" %}
+                <span class="{% fa_class 'download' %}"></span> {% trans "Download as PDF" %}
             </a>
         </li>
         <li>
             <a href="{% url 'manager:log:log' workout.id %}">
-               <span class="{% fa_class 'line-chart' %}"></span>
-               {% trans "View weight log" %}
+                <span class="{% fa_class 'line-chart' %}"></span> {% trans "View weight log" %}
             </a>
         </li>
         {% if is_owner %}
         <li>
             <a href="{% url 'manager:workout:edit' workout.id %}" class="wger-modal-dialog">
-               <span class="{% fa_class 'pencil-square-o' %}"></span>
-               {% trans "Edit workout" %}
+                <span class="{% fa_class 'pencil-square-o' %}"></span> {% trans "Edit workout" %}
             </a>
         </li>
         {% endif %}
         <li>
             <a data-toggle="modal" data-target="#export-ical-popup">
-               <span class="{% fa_class 'calendar' %}"></span>
-               {% trans "Export calendar file" %}
+                <span class="{% fa_class 'calendar' %}"></span> {% trans "Export calendar file" %}
             </a>
         </li>
         <li>
             <a href="{% url 'manager:workout:copy' workout.id %}" class="wger-modal-dialog">
-               <span class="{% fa_class 'clone' %}"></span>
-               {% trans "Make a copy of this workout" %}
+                <span class="{% fa_class 'clone' %}"></span> {% trans "Make a copy of this workout" %}
             </a>
         </li>
         <li>
             {% if state %}
             <a id="po" href="{% url 'manager:workout:export' workout.id %}" class="wger-modal-dialog">
-               <span class="glyphicon glyphicon-export"></span>
-               {% trans "Export workout" %}
+                <span class="glyphicon glyphicon-export"></span> {% trans "Export workout" %}
             </a>
             {% else%}
             <a class='export-button'>
-                    <span class="tooltiptext">You have no exercises on your workouts !</span>
-                    <span class="glyphicon glyphicon-export"></span>
-                    {% trans "Export workout" %}
-                 </a>
+                <span class="tooltiptext">You have no exercises on your workouts !</span>
+                <span class="glyphicon glyphicon-export"></span> {% trans "Export workout" %}
+            </a>
             {% endif %}
         </li>
         {% if is_owner %}
         <li role="separator" class="divider"></li>
         <li>
             <a href="{% url 'manager:workout:delete' workout.id %}" class="wger-modal-dialog">
-                <span class="{% fa_class 'trash' %}"></span>
-                {% trans "Delete this workout" %}
+                <span class="{% fa_class 'trash' %}"></span> {% trans "Delete this workout" %}
             </a>
         </li>
     </ul>
 </div>
-{% endif %}
-{% endblock %}
+{% endif %} {% endblock %}

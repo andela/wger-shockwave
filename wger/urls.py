@@ -78,6 +78,7 @@ v1_api.register(core_api.LanguageResource())
 v1_api.register(core_api.DaysOfWeekResource())
 v1_api.register(core_api.UserProfileResource())
 v1_api.register(core_api.LicenseResource())
+v1_api.register(core_api.AllUserResource())
 
 # /api/v2 - django rest framework
 router = routers.DefaultRouter()
@@ -118,6 +119,10 @@ router.register(
     r'setting-weightunit',
     core_api_views.WeightUnitViewSet,
     base_name='setting-weight-unit')
+router.register(
+    r'allusers',
+    core_api_views.AllUserViewSet,
+    base_name='allusers')
 
 # Exercises app
 router.register(

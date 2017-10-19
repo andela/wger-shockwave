@@ -211,6 +211,15 @@ def add(request):
     return HttpResponseRedirect(workout.get_absolute_url())
 
 def export(request, pk):
+    print(pk)
+    print(request.user)
+    workoutexport = ''
+    if request.method == 'POST':
+        print('yeyeyey')
+        print('post received')
+    else:
+        print('not post')
+    
     template_data = {}
     template_data['title'] = _('Select User to send to')
     template_data['form'] = UserForm()
