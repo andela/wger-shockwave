@@ -83,7 +83,7 @@ class SetForm(ModelForm):
 class UserForm(ModelForm):
     class Meta:
         model = ExportWorkouts
-        exclude = ('sender_id', 'workout')
+        exclude = ('sender_id', 'workout', 'name')
 
 
 class SetFormMobile(ModelForm):
