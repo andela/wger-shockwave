@@ -219,21 +219,6 @@ fieldset[disabled] .btn-default.active {
     color: #fff;
     background-color: #babdb6;
 }
-.row{
-    margin: auto;
-    padding-top: 1px;
-    padding-bottom: 1px;
-}
-.login-area{
-    padding: 2px;
-}
-.form-area {
-    margin: 20px;
-    width: 80%;
-}
-.social-logins{
-    margin: 20px;
-}
 .social-header {
     text-align: center;
 }
@@ -292,6 +277,7 @@ fieldset[disabled] .btn-default.active {
 .btn-twitter:active,.btn-twitter.active,.open>.dropdown-toggle.btn-twitter{background-image:none}
 .btn-twitter.disabled:hover,.btn-twitter[disabled]:hover,fieldset[disabled] .btn-twitter:hover,.btn-twitter.disabled:focus,.btn-twitter[disabled]:focus,fieldset[disabled] .btn-twitter:focus,.btn-twitter.disabled.focus,.btn-twitter[disabled].focus,fieldset[disabled] .btn-twitter.focus{background-color:#55acee;border-color:rgba(0,0,0,0.2)}
 .btn-twitter .badge{color:#55acee;background-color:#fff}
+
 
 
 

@@ -27,7 +27,7 @@ from django.forms import (Form, MultipleHiddenInput, ModelForm, DateField,
 from wger.core.models import (RepetitionUnit, WeightUnit)
 from wger.exercises.models import (Exercise, ExerciseCategory)
 from wger.manager.models import (WorkoutSession, Workout, Day, Set, Setting,
-                                 WorkoutLog, ExportWorkouts)
+                                 WorkoutLog, ExportWorkout)
 from wger.utils.widgets import (TranslatedSelectMultiple, TranslatedSelect,
                                 ExerciseAjaxSelect)
 from wger.utils.constants import DATE_FORMATS
@@ -78,12 +78,6 @@ class SetForm(ModelForm):
         self.fields['exercises'].help_text = _(
             'You can search for more than one exercise, '
             'they will be grouped together for a superset.')
-
-
-class UserForm(ModelForm):
-    class Meta:
-        model = ExportWorkouts
-        exclude = ('sender_id', 'workout', 'name')
 
 
 class SetFormMobile(ModelForm):
@@ -183,3 +177,8 @@ class WorkoutSessionHiddenFieldsForm(ModelForm):
             'user': widgets.HiddenInput(),
             'notes': widgets.Textarea(attrs={'rows': 3})
         }
+
+class ExportWorkoutForm(ModelForm):
+    class Meta:
+        model = ExportWorkout
+        exclude = ('sender', 'workout', 'name')

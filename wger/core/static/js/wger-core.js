@@ -574,48 +574,6 @@ function wgerInitEditSet() {
     });
 }
 
-// function initiRemoveUserFormset() {
-//     $(".ajax-exercise-select a").click(function(e) {
-//         var userId;
-//         e.preventDefault();
-//         userId = $(this)
-//             .parent("div")
-//             .find("input")
-//             .val();
-//         $("#formset-user" + userId).remove();
-//         $(this)
-//             .parent("div")
-//             .remove();
-//     });
-// }
-
-// function wgerLoadAllUsers() {
-//     $('#allusers-search').autocomplete({
-//         serviceUrl: '/api/v2/allusers',
-//         showNoSuggestionNotice: true,
-//         paramName: 'term',
-//         minChars: 3,
-//         onSelect: function(suggestion) {
-//             // Add User to the list
-//             addUser({
-//                 id: suggestion.data.id,
-//                 value: suggestion.value
-//             });
-
-//             // Load formsets
-//             getUserFormset(suggestion.data.id);
-
-//             // init the remove buttons
-//             initRemoveUserFormset();
-//             // Reset the autocompleter
-//             $(this).val('');
-//             return false;
-//         }
-//     });
-//     // Delete button next to exercise
-//     initRemoveUserFormset();
-// }
-
 /*
  Helper function to load the target of a link into the main-content DIV (the main left colum)
  */
@@ -673,6 +631,7 @@ function wgerGetWorkoutSession() {
         }
     });
 }
+
 
 $(document).ready(function() {
     // Handle the workout PDF download options for workouts

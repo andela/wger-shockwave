@@ -81,10 +81,3 @@ class WeightUnitSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = WeightUnit
-
-class AllUsersSerializer(serializers.ModelSerializer):
-    '''
-    Users Serializer
-    '''
-    class Meta:
-        model = User
