@@ -15,19 +15,18 @@
     along with Workout Manager. If not, see <http://www.gnu.org/licenses/>.
 */
 
+
 /**************************************************************
  *
  * Adapt some of bootstrap's CSS classes and styles
  *
  **************************************************************/
 
-
 html {
-  font-family: "Open Sans Light", Arial, Helvetica, sans-serif;
-  -webkit-text-size-adjust: 100%;
-      -ms-text-size-adjust: 100%;
+    font-family: "Open Sans Light", Arial, Helvetica, sans-serif;
+    -webkit-text-size-adjust: 100%;
+    -ms-text-size-adjust: 100%;
 }
-
 
 body {
     font-family: "Open Sans Light", Arial, Helvetica, sans-serif;
@@ -35,7 +34,7 @@ body {
 }
 
 @media (min-width: 992px) {
-    #main-content{
+    #main-content {
         min-height: 40em;
     }
 }
@@ -44,14 +43,14 @@ body {
     margin-bottom: 0px;
 }
 
-.close{
-    float:right;
+.close {
+    float: right;
     opacity: 0.2;
     font-weight: bold;
 }
 
-
-.carousel a:hover, .carousel a:focus {
+.carousel a:hover,
+.carousel a:focus {
     background-color: transparent;
 }
 
@@ -63,10 +62,9 @@ body {
     margin-top: 10px;
 }
 
-
 .application-name {
     text-shadow: 2px 3px 3px #292929;
-    font-family: "Open Sans Bold",Arial,Helvetica,sans-serif;
+    font-family: "Open Sans Bold", Arial, Helvetica, sans-serif;
     font-weight: 300;
     font-size: 180%;
     color: #FFF;
@@ -81,9 +79,11 @@ body {
  *
  * http://getbootstrap.com/examples/offcanvas/
  **************************************************************/
+
 html,
 body {
-    overflow-x: hidden; /* Prevent scroll on narrow devices */
+    overflow-x: hidden;
+    /* Prevent scroll on narrow devices */
 }
 
 #main-template {
@@ -112,45 +112,35 @@ body {
     .row-offcanvas {
         position: relative;
         -webkit-transition: all .25s ease-out;
-           -moz-transition: all .25s ease-out;
-                transition: all .25s ease-out;
+        -moz-transition: all .25s ease-out;
+        transition: all .25s ease-out;
     }
-
     .row-offcanvas-right {
         right: 0;
     }
-
     .row-offcanvas-left {
         left: 0;
     }
-
-    .row-offcanvas-right
-    .sidebar-offcanvas {
+    .row-offcanvas-right .sidebar-offcanvas {
         right: -70%;
     }
-
-    .row-offcanvas-left
-    .sidebar-offcanvas {
+    .row-offcanvas-left .sidebar-offcanvas {
         left: -70%;
     }
-
     .row-offcanvas-right.active {
         right: 70%;
     }
-
     .row-offcanvas-left.active {
         left: 70%;
     }
-
     .sidebar-offcanvas {
         position: absolute;
         top: 0;
         width: 70%;
     }
-
     /* Increase left padding */
     .navbar-nav .open .dropdown-menu .dropdown-header,
-    .navbar-nav .open .dropdown-menu > li > a {
+    .navbar-nav .open .dropdown-menu>li>a {
         padding: 5px 15px 5px 35px;
     }
 }
@@ -160,7 +150,8 @@ body {
  * Alerts
  **************************************************************/
 
-.label, .badge {
+.label,
+.badge {
     font-weight: normal;
 }
 
@@ -168,37 +159,44 @@ body {
 /*
  * Make the 'close' button on alerts more prominent
  */
+
 .alert .close {
     opacity: 0.8;
     text-decoration: none;
 }
 
+
 /**************************************************************
  * Buttons
  **************************************************************/
+
 .btn {
-  overflow: hidden;
-  text-overflow: ellipsis;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
+
 .btn-default {
-  color: #333;
-  background-color: #eeeeec;
-  border-color: #ccc;
+    color: #333;
+    background-color: #eeeeec;
+    border-color: #ccc;
 }
+
 .btn-default:hover,
 .btn-default:focus,
 .btn-default:active,
 .btn-default.active,
 .open .dropdown-toggle.btn-default {
-  color: black;
-  background-color: #babdb6;
-  border-color: #888a85;
+    color: black;
+    background-color: #babdb6;
+    border-color: #888a85;
 }
+
 .btn-default:active,
 .btn-default.active,
 .open .dropdown-toggle.btn-default {
-  background-image: none;
+    background-image: none;
 }
+
 .btn-default.disabled,
 .btn-default[disabled],
 fieldset[disabled] .btn-default,
@@ -214,35 +212,81 @@ fieldset[disabled] .btn-default:active,
 .btn-default.disabled.active,
 .btn-default[disabled].active,
 fieldset[disabled] .btn-default.active {
-  background-color: #babdb6;
-  border-color: #ccc;
+    background-color: #babdb6;
+    border-color: #ccc;
 }
+
 .btn-default .badge {
-  color: #fff;
-  background-color: #babdb6;
+    color: #fff;
+    background-color: #babdb6;
 }
+
 
 /**************************************************************
  * Headers in sidebar
  **************************************************************/
- #main-sidebar h4, #main-sidebar .h4,
- #main-sidebar h5, #main-sidebar .h5,
- #main-sidebar h6, #main-sidebar .h6 {
+
+#main-sidebar h4,
+#main-sidebar .h4,
+#main-sidebar h5,
+#main-sidebar .h5,
+#main-sidebar h6,
+#main-sidebar .h6 {
     margin-top: 0px;
 }
 
 
- /**************************************************************
+/*******
+Import Workout styles
+***/
+
+#import-button {
+    margin-left: 8px;
+}
+
+.export-button .tooltiptext {
+    visibility: hidden;
+    width: 320px;
+    background-color: black;
+    color: #fff;
+    text-align: center;
+    padding: 5px 0;
+    border-radius: 6px;
+    position: absolute;
+    z-index: 1;
+}
+
+.export-button .tooltiptext::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: black transparent transparent transparent;
+}
+
+.export-button:hover .tooltiptext {
+    visibility: visible;
+    bottom: 35%;
+    margin-left: -55px;
+}
+
+
+/**************************************************************
  * Fix issue with body shifting
  *
  * Opening modal dialogs shifted the whole body by 15px to the left.
  * While this appears to be https://github.com/twbs/bootstrap/issues/9855
  * it doesn't seem to be fixed here. When it does, these fixes can be removed
  **************************************************************/
- body.modal-open {
-    padding-right: 0 !important;
 
+body.modal-open {
+    padding-right: 0 !important;
 }
+
+
 /*
 body.modal {
     overflow-y: hidden;

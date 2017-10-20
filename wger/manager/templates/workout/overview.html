@@ -1,36 +1,36 @@
-{% extends "base.html" %}
-{% load i18n %}
-{% load staticfiles %}
-
-{% block title %}{% trans "Your workouts" %}{% endblock %}
-
-
-{% block content %}
-    <div class="list-group">
-        {% for workout in workouts %}
-            <a href="{{ workout.get_absolute_url }}" class="list-group-item">
-                <span class="glyphicon glyphicon-chevron-right pull-right"></span>
-
-                {% if workout == current_workout %}
-                <span class="badge">
+{% extends "base.html" %} {% load i18n %} {% load staticfiles %} {% block title %} {% trans "Your workouts" %} {% endblock %} {% block content %}
+<div class="list-group">
+    {% for workout in workouts %}
+    <a href="{{ workout.get_absolute_url }}" class="list-group-item">
+        <span class="glyphicon glyphicon-chevron-right pull-right"></span> {% if workout == current_workout %}
+        <span class="badge">
                     <em>{% trans "active" %}</em>
-                </span>
-                {% endif %}
+                </span> {% endif %}
 
-                <h4 class="list-group-item-heading">{{ workout }}</h4>
-                <p class="list-group-item-text">{{ workout.creation_date }}</p>
-            </a>
-        {% empty %}
-            <a href="{% url 'manager:workout:add' %}" class="list-group-item">
+        <h4 class="list-group-item-heading">{{ workout }}</h4>
+        <p class="list-group-item-text">{{ workout.creation_date }}</p>
+    </a>
+    {% empty %}
+    <a href="{% url 'manager:workout:add' %}" class="list-group-item">
             {% trans "No workouts found." %}<br>{% trans "Add one now." %}
-            </a>
-        {% endfor %}
-    </div>
-{% endblock %}
-
-
-{% block options %}
+            </a> {% endfor %}
+</div>
+{% endblock %} {% block options %}
 <a href="{% url 'manager:workout:add' %}" class="btn btn-success btn-sm">
     {% trans "Add workout" %}
-</a>
-{% endblock %}
+</a> {% if importworkout%}
+<div class="btn-group" id="import-button">
+    <button type="button" class="btn btn-primary btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <span class="glyphicon glyphicon-cog"></span> {% trans "Import Workout" %}
+    </button>
+    <ul class="dropdown-menu">
+        {% for workout in exportedworkouts%}
+        <li>
+            <a href="{% url 'manager:workout:importworkout' workout.id%}">
+                <span class="glyphicon glyphicon-import"></span>{% trans "Workout from" %} {{workout.name}}
+            </a>
+        </li>
+        {% endfor %}
+    </ul>
+</div>
+{% endif %} {% endblock %}
