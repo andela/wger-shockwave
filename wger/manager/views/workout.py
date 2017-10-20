@@ -18,7 +18,7 @@ import logging
 import uuid
 import datetime
 
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponseRedirect, HttpResponseForbidden
 from django.template.context_processors import csrf
 from django.core.urlresolvers import reverse, reverse_lazy
@@ -27,11 +27,12 @@ from django.contrib.auth.mixins import PermissionRequiredMixin, LoginRequiredMix
 from django.contrib.auth.decorators import login_required
 from django.views.generic import DeleteView, UpdateView
 
+from django.contrib.auth.models import User
 from wger.core.models import (RepetitionUnit, WeightUnit)
 from wger.manager.models import (Workout, WorkoutSession, WorkoutLog, Schedule,
-                                 Day)
+                                 Day, ExportWorkout)
 from wger.manager.forms import (WorkoutForm, WorkoutSessionHiddenFieldsForm,
-                                WorkoutCopyForm, UserForm)
+                                WorkoutCopyForm, ExportWorkoutForm)
 from wger.utils.generic_views import (WgerFormMixin, WgerDeleteMixin)
 from wger.utils.helpers import make_token
 
@@ -48,12 +49,19 @@ def overview(request):
     '''
 
     template_data = {}
-
+    import_status = False
     workouts = Workout.objects.filter(user=request.user)
+    exported_workouts = ExportWorkout.objects.filter(receiver_id=request.user)
+    for workout in exported_workouts:
+        user = User.objects.get(pk=workout.sender)
+    if exported_workouts:
+        import_status = True
     (current_workout,
      schedule) = Schedule.objects.get_current_workout(request.user)
     template_data['workouts'] = workouts
     template_data['current_workout'] = current_workout
+    template_data['importworkout'] = import_status
+    template_data['exportedworkouts'] = exported_workouts
 
     return render(request, 'workout/overview.html', template_data)
 
@@ -66,14 +74,14 @@ def view(request, pk):
     workout = get_object_or_404(Workout, pk=pk)
     user = workout.user
     is_owner = request.user == user
-    state = False
+    export_workout_state = False
 
     if not is_owner and not user.userprofile.ro_access:
         return HttpResponseForbidden()
 
     canonical = workout.canonical_representation
     if 'exercise_list' in str(canonical):
-        state = True
+        export_workout_state = True
     uid, token = make_token(user)
 
     # Create the backgrounds that show what muscles the workout will work on
@@ -109,7 +117,7 @@ def view(request, pk):
     template_data['is_owner'] = is_owner
     template_data['owner_user'] = user
     template_data['show_shariff'] = is_owner
-    template_data['state'] = state
+    template_data['export_workout_state'] = export_workout_state
 
     return render(request, 'workout/view.html', template_data)
 
@@ -210,22 +218,80 @@ def add(request):
 
     return HttpResponseRedirect(workout.get_absolute_url())
 
-def export(request, pk):
-    print(pk)
-    print(request.user)
-    workoutexport = ''
+def exportworkout(request, pk):
+    '''
+    Export workout and redirect to workout page
+    :param exercise:
+    :param pk: ID of workout being exported
+    '''
+    workout = get_object_or_404(Workout, pk=pk)
     if request.method == 'POST':
-        print('yeyeyey')
-        print('post received')
-    else:
-        print('not post')
-    
+        workout_export = ExportWorkout()
+        workout_export.sender = request.user.id
+        workout_export.receiver = User.objects.get(pk=request.POST['receiver'])
+        workout_export.workout = workout
+        workout_export.name = request.user.username
+        workout_export.save()
+        return HttpResponseRedirect(reverse('manager:workout:view', kwargs={'pk':workout.id}))
+
     template_data = {}
     template_data['title'] = _('Select User to send to')
-    template_data['form'] = UserForm()
+    template_data['form'] = ExportWorkoutForm()
+    template_data['form_action'] = reverse('manager:workout:exportworkout', 
+        kwargs={'pk':workout.id})
     template_data['submit_text'] = _('Send')
     template_data['extend_template'] = 'base_empty.html' if request.is_ajax() else 'base.html'
+    
     return render(request, 'form.html', template_data)
+
+def importworkout(request, pk):
+    '''
+    Import Workout and redirect to list of workouts
+    :param request:
+    :param pk: ID of the workout being imported
+    '''
+    workout_export = get_object_or_404(ExportWorkout, pk=pk)
+    imported_workout = get_object_or_404(Workout, pk=workout_export.workout_id) 
+    new_workout = Workout.objects.create(pk=None, user=request.user)
+
+    days = imported_workout.day_set.all()
+    for day in days:
+        sets = day.set_set.all()
+        day_copy = day
+        days_of_week = [i for i in day.day.all()]
+        day_copy.pk = None
+        day_copy.training = new_workout
+        day_copy.save()
+        for i in days_of_week:
+            day_copy.day.add(i)
+        day_copy.save()
+        # copy sets
+        for current_set in sets:
+            current_set_id = current_set.id
+            exercises = current_set.exercises.all()
+
+            current_set_copy = current_set
+            current_set_copy.pk = None
+            current_set_copy.exerciseday = day_copy
+            current_set_copy.save()
+
+            # Exercises has Many2Many relationship
+            current_set_copy.exercises = exercises
+
+            # Go through the exercises
+            for exercise in exercises:
+                settings = exercise.setting_set.filter(
+                    set_id=current_set_id)
+
+                # Copy the settings
+                for setting in settings:
+                    setting_copy = setting
+                    setting_copy.pk = None
+                    setting_copy.set = current_set_copy
+                    setting_copy.save()
+
+    workout_export.delete()
+    return HttpResponseRedirect(reverse('manager:workout:overview'))
 
 
 class WorkoutDeleteView(WgerDeleteMixin, LoginRequiredMixin, DeleteView):

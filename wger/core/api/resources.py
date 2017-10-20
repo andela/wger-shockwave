@@ -74,13 +74,3 @@ class LicenseResource(ModelResource):
             "short_name": ALL,
             "url": ALL
         }
-
-class AllUserResource(ModelResource):
-    '''
-    Reseource to return all users
-    '''
-    class Meta:
-        queryset = User.objects.all()
-        filtering = {
-            'id': ALL,
-        }

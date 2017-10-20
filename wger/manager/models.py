@@ -912,16 +912,17 @@ class WorkoutSession(models.Model):
         super(WorkoutSession, self).delete(*args, **kwargs)
 
 
-class ExportWorkouts(models.Model):
-    sender_id = models.IntegerField()
+class ExportWorkout(models.Model):
+    sender = models.IntegerField()
     '''
     User id for the user sending the workout
     '''
-    receiver_id = models.ForeignKey(User, verbose_name=_('User'))
+    receiver = models.ForeignKey(User, verbose_name=_('User'))
     '''
     User id for the user receiving the workout
     '''
     workout = models.ForeignKey(Workout, verbose_name=_('Workout'))
+    name = models.CharField(max_length=200,blank=True)
     def get_owner_object(self):
         '''
         Returns the object
@@ -932,13 +933,11 @@ class ExportWorkouts(models.Model):
         '''
         A method to save the table
         '''
-        print("in save")
-        super(ExportWorkouts, self).save(*args, **kwargs)
-        print(super(ExportWorkouts, self).save(*args, **kwargs))
+        super(ExportWorkout, self).save(*args, **kwargs)
 
     def delete(self, *args, **kwargs):
         '''
         A method to save the table
         '''
-        super(ExportWorkouts, self).delete(*args, **kwargs)
+        super(ExportWorkout, self).delete(*args, **kwargs)
         
