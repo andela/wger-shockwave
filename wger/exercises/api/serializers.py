@@ -24,9 +24,19 @@ class ExerciseSerializer(serializers.ModelSerializer):
     '''
     Exercise serializer
     '''
-
+    main_image = serializers.SerializerMethodField()
     class Meta:
         model = Exercise
+
+    def get_main_image(self, obj):       
+        if not obj.main_image:
+            return None
+        else:
+            host = self.context['request'].get_host()
+            url = 'http://' + host + str(obj.main_image.image.url)
+            return url
+
+    
 
 
 class EquipmentSerializer(serializers.ModelSerializer):

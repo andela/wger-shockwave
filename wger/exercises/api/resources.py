@@ -64,6 +64,44 @@ class ExerciseResource(ModelResource):
         }
 
 
+class ExerciseInfoResource(ModelResource):
+    category = fields.ToOneField('wger.exercises.api.resources'
+                                 '.ExerciseCategoryResource', 'category')
+    muscles = fields.ToManyField('wger.exercises.api.resources'
+                                 '.MuscleResource', 'muscles')
+    muscles_secondary = fields.ToManyField('wger.exercises.api.resources'
+                                           '.MuscleResource',
+                                           'muscles_secondary')
+    comments = fields.ToManyField('wger.exercises.api.resources'
+                                  '.ExerciseCommentResource',
+                                  'exercisecomment_set')
+    images = fields.ToManyField('wger.exercises.api.resources'
+                                '.ExerciseImageResource', 'exerciseimage_set')
+    equipment = fields.ToManyField('wger.exercises.api.resources.'
+                                   'EquipmentResource', 'equipment')
+    language = fields.ToOneField(LanguageResource, 'language')
+    license = fields.ToOneField(LicenseResource, 'license')
+
+    creation_date = fields.DateField(attribute='creation_date', null=True)
+
+    class Meta:
+        queryset = Exercise.objects.all()
+        filtering = {
+            'id': ALL,
+            "uuid": ALL,
+            "category": ALL_WITH_RELATIONS,
+            "creation_date": ALL,
+            "description": ALL,
+            "images": ALL_WITH_RELATIONS,
+            "language": ALL_WITH_RELATIONS,
+            "muscles": ALL_WITH_RELATIONS,
+            "status": ALL,
+            "name": ALL,
+            "license": ALL,
+            "license_author": ALL
+        }
+
+
 class EquipmentResource(ModelResource):
     class Meta:
         queryset = Equipment.objects.all()

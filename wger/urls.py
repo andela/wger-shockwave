@@ -55,6 +55,7 @@ v1_api.register(exercises_api.ExerciseImageResource())
 v1_api.register(exercises_api.ExerciseResource())
 v1_api.register(exercises_api.MuscleResource())
 v1_api.register(exercises_api.EquipmentResource())
+v1_api.register(exercises_api.ExerciseInfoResource())
 
 v1_api.register(nutrition_api.IngredientResource())
 v1_api.register(nutrition_api.WeightUnitResource())
@@ -138,6 +139,9 @@ router.register(
     base_name='exercisecomment')
 router.register(
     r'muscle', exercises_api_views.MuscleViewSet, base_name='muscle')
+
+router.register(
+    r'exerciseinfo', exercises_api_views.ExerciseInfoReadOnly, base_name='exerciseinfo')
 
 # Nutrition app
 router.register(
