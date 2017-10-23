@@ -13,10 +13,17 @@ $(document).ready( function () {
     });
 });
 </script>
+{% if user_type %}
+<style>
+    #table-header{
+        background-color: #00FF00
+    }
+</style>
+ {% endif %}
 
 <table class="table table-hover" id="main_member_list">
 <thead>
-<tr>
+<tr id="table-header">
     {% for key in user_table.keys %}
         <th>{{ key }}</th>
     {% endfor %}

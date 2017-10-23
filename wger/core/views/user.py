@@ -502,21 +502,19 @@ class UserListView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
     model = User
     permission_required = ('gym.manage_gyms', )
     template_name = 'user/list.html'
+    userType = True
 
     def get_queryset(self):
         '''
         Return a list with the users, not really a queryset.
         '''
-        out = {'admins': [], 'members': []}
-
-        for u in User.objects.select_related('usercache',
-                                             'userprofile__gym').all():
-            out['members'].append({
-                'obj': u,
-                'last_log': u.usercache.last_activity
-            })
-
-        return out
+        user_list = {'admins': [],
+               'members': []}
+        for user in User.objects.select_related('usercache',
+                                                'userprofile__gym').filter(is_active=self.userType):
+            user_list['members'].append({'obj': user,
+                                   'last_log': user.usercache.last_activity})
+        return user_list
 
     def get_context_data(self, **kwargs):
         '''
@@ -524,14 +522,11 @@ class UserListView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
         '''
         context = super(UserListView, self).get_context_data(**kwargs)
         context['show_gym'] = True
-        context['user_table'] = {
-            'keys':
-            [_('ID'),
-             _('Username'),
-             _('Name'),
-             _('Last activity'),
-             _('Gym')],
-            'users':
-            context['object_list']['members']
-        }
+        context['user_table'] = {'keys': [_('ID'),
+                                          _('Username'),
+                                          _('Name'),
+                                          _('Last activity'),
+                                          _('Gym')],
+                                 'users': context['object_list']['members']}
+        context['user_type'] = self.userType
         return context

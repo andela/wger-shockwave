@@ -60,7 +60,12 @@ patterns_user = [
     url(r'^(?P<pk>\d+)/overview',
         user.UserDetailView.as_view(),
         name='overview'),
-    url(r'^list', user.UserListView.as_view(), name='list'),
+    url(r'^list',
+        user.UserListView.as_view(),
+        name='list'),
+    url(r'^inactive_list',
+        user.UserListView.as_view(userType=False),
+        name='inactive_list'),
 
     # Password reset is implemented by Django,
     # no need to cook our own soup here

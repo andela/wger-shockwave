@@ -166,6 +166,27 @@ class UserListTestCase(WorkoutManagerAccessTestCase):
                  'trainer2', 'trainer3', 'trainer4')
 
 
+    def test_active_inactive_user_view(self):
+        '''
+        Login admin. Create active and inactive users. Ensure active user
+        is on the list page and that inactive user is on the inactive_list
+        page.
+        '''
+        self.user_login('admin')
+        active_user = User.objects.create_user(username='active_user_example1')
+        inactive_user = User.objects.create_user(username='inactive_user_example2')
+        inactive_user.is_active = False
+        inactive_user.save()
+        self.assertTrue(active_user.is_active)
+        self.assertFalse(inactive_user.is_active)
+        get_active_users = self.client.get(reverse(self.url))
+        self.assertContains(get_active_users, active_user.username, status_code=200)
+        self.assertNotContains(get_active_users, inactive_user.username, status_code=200)
+        get_inactive_users = self.client.get(reverse('core:user:inactive_list'))
+        self.assertContains(get_inactive_users, inactive_user.username, status_code=200)
+        self.assertNotContains(get_inactive_users, active_user.username, status_code=200)
+
+
 class UserDetailPageTestCase(WorkoutManagerAccessTestCase):
     '''
     Test accessing the user detail page
