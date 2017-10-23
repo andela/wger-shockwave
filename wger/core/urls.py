@@ -157,4 +157,8 @@ urlpatterns = [
         include(patterns_repetition_units, namespace="repetition-unit")),
     url(r'^weight-unit/',
         include(patterns_weight_units, namespace="weight-unit")),
+
+    # Fitbit
+    url(r'^fitbit-login', misc.fitbitLogin, name="fitbit-login"),
+    url(r'^fitbit/complete', misc.fitbitComplete, name="fitbit-complete"),
 ]

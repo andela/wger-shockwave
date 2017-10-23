@@ -15,9 +15,13 @@
 # You should have received a copy of the GNU Affero General Public License
 
 import logging
+import base64
+import requests
+import dateutil.parser 
+import fitbit
 
 from django.conf import settings
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponseRedirect
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.urlresolvers import reverse, reverse_lazy
@@ -37,6 +41,7 @@ from wger.manager.models import Schedule
 from wger.nutrition.models import NutritionPlan
 from wger.weight.models import WeightEntry
 from wger.weight.helpers import get_last_entries
+from .fitbit import Fitbit
 
 logger = logging.getLogger(__name__)
 
@@ -210,3 +215,37 @@ class FeedbackClass(FormView):
         mail.mail_admins(subject, message)
 
         return super(FeedbackClass, self).form_valid(form)
+
+@login_required
+def fitbitLogin(request):
+    fitbitConnect = Fitbit()
+    url = fitbitConnect.GetAuthorizationUri()
+    return redirect(url)
+
+@login_required
+def fitbitComplete(request):
+    code = request.GET.get('code')
+    fitbitConnect = Fitbit()
+    token = fitbitConnect.GetAccessToken(code)
+
+    headers = {
+            'Authorization': 'Bearer %s' % token['access_token']
+        }
+
+    final_url = 'https://' + fitbitConnect.API_SERVER + '/1/user/-/body/weight/date/today/30d.json'
+    try:
+        resp = requests.get(final_url, headers=headers)
+        data = resp.json()
+        print(data)
+        for content_data in data['body-weight']:
+            weight = WeightEntry()
+            weight.user = request.user
+            weight.weight=content_data['value']
+            weight.date = dateutil.parser.parse(content_data['dateTime'])
+            try:
+                weight.save()
+            except Exception as e:
+                pass
+    except Exception as e:
+        pass
+    return HttpResponseRedirect(reverse('core:dashboard'))
