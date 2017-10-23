@@ -140,7 +140,7 @@ def copy_workout(request, pk):
         workout_form = WorkoutCopyForm(request.POST)
 
         if workout_form.is_valid():
-
+            
             # Copy workout
             days = workout.day_set.all()
 
@@ -149,44 +149,7 @@ def copy_workout(request, pk):
             workout_copy.comment = workout_form.cleaned_data['comment']
             workout_copy.user = request.user
             workout_copy.save()
-
-            # Copy the days
-            for day in days:
-                sets = day.set_set.all()
-
-                day_copy = day
-                days_of_week = [i for i in day.day.all()]
-                day_copy.pk = None
-                day_copy.training = workout_copy
-                day_copy.save()
-                for i in days_of_week:
-                    day_copy.day.add(i)
-                day_copy.save()
-
-                # Copy the sets
-                for current_set in sets:
-                    current_set_id = current_set.id
-                    exercises = current_set.exercises.all()
-
-                    current_set_copy = current_set
-                    current_set_copy.pk = None
-                    current_set_copy.exerciseday = day_copy
-                    current_set_copy.save()
-
-                    # Exercises has Many2Many relationship
-                    current_set_copy.exercises = exercises
-
-                    # Go through the exercises
-                    for exercise in exercises:
-                        settings = exercise.setting_set.filter(
-                            set_id=current_set_id)
-
-                        # Copy the settings
-                        for setting in settings:
-                            setting_copy = setting
-                            setting_copy.pk = None
-                            setting_copy.set = current_set_copy
-                            setting_copy.save()
+            CopyWorkout().duplicate_workout(days, workout_copy)
 
             return HttpResponseRedirect(
                 reverse('manager:workout:view', kwargs={'pk': workout.id}))
@@ -251,47 +214,64 @@ def importworkout(request, pk):
     :param pk: ID of the workout being imported
     '''
     workout_export = get_object_or_404(ExportWorkout, pk=pk)
-    imported_workout = get_object_or_404(Workout, pk=workout_export.workout_id) 
+    imported_workout = get_object_or_404(Workout, pk=workout_export.workout_id)
     new_workout = Workout.objects.create(pk=None, user=request.user)
-
+    new_workout.comment = imported_workout.comment
+    new_workout.save()
     days = imported_workout.day_set.all()
-    for day in days:
-        sets = day.set_set.all()
-        day_copy = day
-        days_of_week = [i for i in day.day.all()]
-        day_copy.pk = None
-        day_copy.training = new_workout
-        day_copy.save()
-        for i in days_of_week:
-            day_copy.day.add(i)
-        day_copy.save()
-        # copy sets
-        for current_set in sets:
-            current_set_id = current_set.id
-            exercises = current_set.exercises.all()
-
-            current_set_copy = current_set
-            current_set_copy.pk = None
-            current_set_copy.exerciseday = day_copy
-            current_set_copy.save()
-
-            # Exercises has Many2Many relationship
-            current_set_copy.exercises = exercises
-
-            # Go through the exercises
-            for exercise in exercises:
-                settings = exercise.setting_set.filter(
-                    set_id=current_set_id)
-
-                # Copy the settings
-                for setting in settings:
-                    setting_copy = setting
-                    setting_copy.pk = None
-                    setting_copy.set = current_set_copy
-                    setting_copy.save()
-
+    CopyWorkout().duplicate_workout(days, new_workout)
     workout_export.delete()
+
     return HttpResponseRedirect(reverse('manager:workout:overview'))
+
+
+class CopyWorkout():
+    '''
+    Class to copy workouts
+    '''
+    def duplicate_workout(self, days, workout_copy):
+        '''
+        Duplicate workout with days, sets and exercises
+        :params days: The days chosen to perform the exercises
+        :params workout_copy: The copy of the workout
+        '''
+        # Copy the days
+        for day in days:
+            sets = day.set_set.all()
+            day_copy = day
+            days_of_week = [i for i in day.day.all()]
+            day_copy.pk = None
+            day_copy.training = workout_copy
+            day_copy.save()
+            for i in days_of_week:
+                day_copy.day.add(i)
+            day_copy.save()
+
+            # Copy the sets
+            for current_set in sets:
+                current_set_id = current_set.id
+                exercises = current_set.exercises.all()
+
+                current_set_copy = current_set
+                current_set_copy.pk = None
+                current_set_copy.exerciseday = day_copy
+                current_set_copy.save()
+
+                # Exercises has Many2Many relationship
+                current_set_copy.exercises = exercises
+
+                # Go through the exercises
+                for exercise in exercises:
+                    settings = exercise.setting_set.filter(
+                        set_id=current_set_id)
+
+                    # Copy the settings
+                    for setting in settings:
+                        setting_copy = setting
+                        setting_copy.pk = None
+                        setting_copy.set = current_set_copy
+                        setting_copy.save()
+
 
 
 class WorkoutDeleteView(WgerDeleteMixin, LoginRequiredMixin, DeleteView):
