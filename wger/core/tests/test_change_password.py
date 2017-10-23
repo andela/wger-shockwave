@@ -38,14 +38,11 @@ class ChangePasswordTestCase(WorkoutManagerTestCase):
             self.assertEqual(response.status_code, 200)
 
         # Fill in the change password form
-        form_data = {
-            'old_password': 'testtest',
-            'new_password1': 'Qwerty09876',
-            'new_password2': 'Qwerty09876'
-        }
+        form_data = {'old_password': 'testtest',
+                     'new_password1': 'Qwerty09876',
+                     'new_password2': 'Qwerty09876'}
 
-        response = self.client.post(
-            reverse('core:user:change-password'), form_data)
+        response = self.client.post(reverse('core:user:change-password'), form_data)
         self.assertEqual(response.status_code, 302)
 
         # Check the new password was accepted

@@ -15,12 +15,17 @@ Installation
 These are the basic steps to install and run the application locally on a linux
 system. There are more detailed instructions, other deployment options as well
 as an administration guide available at https://wger.readthedocs.io or locally
-in your code repository in the docs folder (``make html`` to compile, then open
+in your code repository in the docs folder (make html to compile, then open
 _build/index.html).
 
 Please consult the commands' help for further information and available
 parameters.
 
+Requirements
+------------
+- python3
+- python-virtualenv
+- nodejs
 
 Docker
 ------
@@ -54,23 +59,24 @@ On fedora 23
 
 Then install the python packages from pypi in the virtualenv::
 
+Create Virtual environment and activate it:
  $ virtualenv --python python3 venv-django
  $ source venv-django/bin/activate
 
 
-2) Start the application. This will download the required JS and CSS libraries
+2) Clone the Application from github using and run follow the steps below. This will download the required JS and CSS libraries
    and create a SQlite database and populate it with data on the first run.
 
 ::
 
  $ git clone https://github.com/andela/wger-shockwave.git
- $ cd wger
+ $ cd wger-shockwave
  $ pip install -r requirements.txt  # or requirements_devel.txt to develop
- $ invoke create_settings \
-          --settings-path /home/wger/wger/settings.py \
-          --database-path /home/wger/wger/database.sqlite
- $ invoke bootstrap_wger \
-          --settings-path /home/wger/wger/settings.py \
+ $ invoke create-settings \
+          --settings-path ./settings.py \
+          --database-path ./database.sqlite
+ $ invoke bootstrap-wger \
+          --settings-path ./settings.py \
           --no-start-server
  $ python manage.py runserver
 
@@ -80,13 +86,12 @@ After the first run you can just use django's development server. You will
 probably want to move the settings and sqlite files to your git folder, see
 the comments in the documentation (development chapter) about this::
 
- $ python manage.py runserver
 
 Docker images
 ~~~~~~~~~~~~~
 
-Alternatively, there are docker images for development as well, ``wger/devel``
-and ``wger/devel-fedora``. Both images contain an instance of the application
+Alternatively, there are docker images for development as well, wger/devel
+and wger/devel-fedora. Both images contain an instance of the application
 running with django's development server using a sqlite database and  can be
 used to quickly setup a development instance (vim and tmux are already
 installed). The only difference is that devel has an ubuntu base image while
@@ -139,9 +144,9 @@ Stable version (from PyPI)
 Command line options
 --------------------
 
-The available options for the ``wger`` command (if installed from PyPI) or
-``invoke`` (if installed from source) are the following (use e.g. ``wger
-<command>``::
+The available options for the wger command (if installed from PyPI) or
+invoke (if installed from source) are the following (use e.g. wger
+<command>::
 
 
   bootstrap_wger          Performs all steps necessary to bootstrap the application

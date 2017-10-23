@@ -39,7 +39,7 @@ patterns_language = [
 
 # sub patterns for user
 patterns_user = [
-    url(r'^login$', user.login, name='login'),
+    url(r'^login', user.login, name='login'),
     url(r'^logout$', user.logout, name='logout'),
     url(r'^delete$', user.delete, name='delete'),
     url(r'^(?P<user_pk>\d+)/delete$', user.delete, name='delete'),
