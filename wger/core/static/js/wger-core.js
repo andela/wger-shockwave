@@ -17,7 +17,7 @@
 
 /*
  AJAX related functions
- 
+
  See https://docs.djangoproject.com/en/dev/ref/contrib/csrf/#ajax for
  more information
  */
