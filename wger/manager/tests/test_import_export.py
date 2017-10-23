@@ -69,9 +69,10 @@ class ExportImportWorkout(WorkoutManagerTestCase):
         get_response = self.client.get(reverse('manager:workout:overview'))
         self.assertContains(get_response, 'Import Workout')
 
-    def test_import_button_adds_workout(self):
+    def test_import_workout(self):
         '''
-        Test that the import adds a workout to the user
+        Test that the import adds a workout to the user and that the import
+        button disappears
         '''
         instance_list = self.export_importer_workout()
         exporter = instance_list[0]
@@ -85,8 +86,33 @@ class ExportImportWorkout(WorkoutManagerTestCase):
             kwargs={'pk': workout.pk}), {'receiver': importer.pk, 'user': exporter})
         self.client.login(username='importer', password='example_password2')
         exported_workout = ExportWorkout.objects.filter(workout_id=workout.pk).first()
-        post_response = self.client.post(reverse('manager:workout:importworkout',
-                                                 kwargs={'pk': exported_workout.pk}))
+        self.client.post(reverse('manager:workout:importworkout',
+                                 kwargs={'pk': exported_workout.pk}))
         workouts_for_importer = Workout.objects.filter(user_id=importer.pk)
         self.assertEqual(1, len(workouts_for_importer))
-        
+        workout_added = workouts_for_importer.first()
+        self.assertEqual(workout_added.comment, workout.comment)
+        get_response = self.client.get(reverse('manager:workout:overview'))
+        self.assertNotContains(get_response, 'Import Workout')
+
+    def test_export_button_tooltip(self):
+        '''
+        Test that a workout without exercises will render a tooltip and that
+        it will not have a link for exporting a workout
+        Test that a workout with exercises will render import button with a link,
+        and will not render a tooltip
+        '''
+        workout = self.export_importer_workout()[2]
+        self.client.login(username='example', password='example_password')
+        get_response = self.client.get(
+            reverse('manager:workout:view', kwargs={'pk': workout.pk}))
+        self.assertContains(get_response, 'You can\'t export workouts that have no exercise!')
+        self.assertNotContains(
+            get_response, '/en/workout/'+ str(workout.pk) +'/exportworkout/')
+        workout1 = Workout.objects.filter(id=1).first()
+        second_get_response = self.client.get(
+            reverse('manager:workout:view', kwargs={'pk': workout1.pk}))
+        self.assertNotContains(
+            second_get_response, 'You can\'t export workouts that have no exercise!')
+        self.assertContains(
+            second_get_response, '/en/workout/'+ str(workout1.id) +'/exportworkout/')
