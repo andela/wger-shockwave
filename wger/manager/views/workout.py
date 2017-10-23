@@ -18,7 +18,7 @@ import logging
 import uuid
 import datetime
 
-from django.shortcuts import render, get_object_or_404, redirect
+from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponseRedirect, HttpResponseForbidden
 from django.template.context_processors import csrf
 from django.core.urlresolvers import reverse, reverse_lazy
@@ -237,11 +237,11 @@ def exportworkout(request, pk):
     template_data = {}
     template_data['title'] = _('Select User to send to')
     template_data['form'] = UserForm()
-    template_data['form_action'] = reverse('manager:workout:exportworkout', 
-        kwargs={'pk':workout.id})
+    template_data['form_action'] = reverse('manager:workout:exportworkout',
+                                           kwargs={'pk':workout.id})
     template_data['submit_text'] = _('Send')
     template_data['extend_template'] = 'base_empty.html' if request.is_ajax() else 'base.html'
-    
+
     return render(request, 'form.html', template_data)
 
 def importworkout(request, pk):
@@ -251,7 +251,7 @@ def importworkout(request, pk):
     :param pk: ID of the workout being imported
     '''
     workout_export = get_object_or_404(ExportWorkouts, pk=pk)
-    imported_workout = get_object_or_404(Workout, pk=workout_export.workout_id) 
+    imported_workout = get_object_or_404(Workout, pk=workout_export.workout_id)
     new_workout = Workout.objects.create(pk=None, user=request.user)
 
     days = imported_workout.day_set.all()
@@ -290,7 +290,6 @@ def importworkout(request, pk):
                     setting_copy.set = current_set_copy
                     setting_copy.save()
 
-    print('Export successful')
     workout_export.delete()
     return HttpResponseRedirect(reverse('manager:workout:overview'))
 
