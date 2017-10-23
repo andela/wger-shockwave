@@ -18,7 +18,6 @@ from tastypie.authentication import ApiKeyAuthentication
 from tastypie.constants import ALL
 from tastypie.resources import ModelResource
 
-from django.contrib.auth.models import User
 from wger.utils.resources import UserObjectsOnlyAuthorization
 from wger.core.models import (UserProfile, Language, DaysOfWeek, License)
 
