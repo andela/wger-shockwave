@@ -103,6 +103,64 @@ def search(request):
     return Response(json_response)
 
 
+class ExerciseInfoReadOnly(viewsets.ReadOnlyModelViewSet):
+    '''
+    Read Only API endpoint for exercise objects
+    '''
+    queryset = Exercise.objects.all()
+    serializer_class = ExerciseSerializer
+    permission_classes = (IsAuthenticatedOrReadOnly, CreateOnlyPermission)
+    ordering_fields = '__all__'
+    filter_fields = ('category', 'creation_date', 'description', 'language',
+                     'muscles', 'muscles_secondary', 'status', 'name',
+                     'equipment', 'license', 'license_author')
+
+
+@api_view(['GET'])
+def search(request):
+    '''
+    Searches for exercises.
+
+    This format is currently used by the exercise search autocompleter
+    '''
+    q = request.GET.get('term', None)
+    results = []
+    json_response = {}
+
+    if q:
+        languages = load_item_languages(
+            LanguageConfig.SHOW_ITEM_EXERCISES,
+            language_code=request.GET.get('language', None))
+        exercises = (Exercise.objects.filter(name__icontains=q).filter(
+            language__in=languages).filter(status=Exercise.STATUS_ACCEPTED)
+            .order_by('category__name', 'name').distinct())
+
+        for exercise in exercises:
+            if exercise.main_image:
+                image_obj = exercise.main_image
+                image = image_obj.image.url
+                t = get_thumbnailer(image_obj.image)
+                thumbnail = t.get_thumbnail(aliases.get('micro_cropped')).url
+            else:
+                image = None
+                thumbnail = None
+
+            exercise_json = {
+                'value': exercise.name,
+                'data': {
+                    'id': exercise.id,
+                    'name': exercise.name,
+                    'category': _(exercise.category.name),
+                    'image': image,
+                    'image_thumbnail': thumbnail
+                }
+            }
+            results.append(exercise_json)
+        json_response['suggestions'] = results
+
+    return Response(json_response)
+
+
 class EquipmentViewSet(viewsets.ReadOnlyModelViewSet):
     '''
     API endpoint for equipment objects
