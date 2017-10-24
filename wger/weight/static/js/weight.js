@@ -52,8 +52,6 @@ $(document).ready(function () {
     colors: ['#3465a4']
   };
 
-  // username = $('#current-username').value;
-  // username = "admin";
   username = $('#current-username').data('currentUsername');
   url = '/weight/api/get_weight_data/' + username;
   d3.json(url, function (json) {
@@ -101,9 +99,7 @@ function userchange(username) {
     min_y_from_data: true,
     colors: ['#3465a4']
   };
-  console.log(username)
   
-  // url = '/weight/api/get_weight_data/' + username;
   url = '/weight/api/get_user_weight_data/' + username;
 
   d3.json(url, function (json) {
