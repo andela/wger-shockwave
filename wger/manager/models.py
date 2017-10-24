@@ -937,7 +937,7 @@ class ExportWorkout(models.Model):
 
     def delete(self, *args, **kwargs):
         '''
-        A method to save the table
+        A method to delete the table
         '''
         super(ExportWorkout, self).delete(*args, **kwargs)
         
