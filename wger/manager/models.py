@@ -931,13 +931,12 @@ class ExportWorkout(models.Model):
 
     def save(self, *args, **kwargs):
         '''
-        A method to save the table
+        A method to save exportworkout record
         '''
         super(ExportWorkout, self).save(*args, **kwargs)
 
     def delete(self, *args, **kwargs):
         '''
-        A method to delete the table
+        A method to delete exportworkout record
         '''
         super(ExportWorkout, self).delete(*args, **kwargs)
-        

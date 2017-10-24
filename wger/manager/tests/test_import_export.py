@@ -26,8 +26,10 @@ class ExportImportWorkout(WorkoutManagerTestCase):
         '''
         Create Objects for testing the export import functions
         '''
-        export_user = User.objects.create_user(username='example', password='example_password')
-        import_user = User.objects.create_user(username='importer', password='example_password2')
+        export_user = User.objects.create_user(
+            username='example', password='example_password')
+        import_user = User.objects.create_user(
+            username='importer', password='example_password2')
         workout_to_export = Workout(user_id=export_user.pk, comment='test_workout')
         workout_to_export.save()
         return [export_user, import_user, workout_to_export]
