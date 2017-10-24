@@ -66,7 +66,7 @@ class Workout(models.Model):
         help_text=_("A short description or goal of the workout. For "
                     "example 'Focus on back' or 'Week 1 of program xy'."))
     user = models.ForeignKey(User, verbose_name=_('User'))
-
+    
     def get_absolute_url(self):
         '''
         Returns the canonical URL to view a workout
@@ -768,7 +768,10 @@ class WorkoutLog(models.Model):
             date = self.date
 
         try:
-            return WorkoutSession.objects.filter(user=self.user).get(date=date)
+            try:
+                return WorkoutSession.objects.filter(user=self.user).get(workout_log=self)
+            except WorkoutSession.DoesNotExist:
+                return WorkoutSession.objects.filter(user=self.user).get(date=date)
         except WorkoutSession.DoesNotExist:
             return None
 
@@ -859,6 +862,9 @@ class WorkoutSession(models.Model):
     '''
     Time the workout session ended
     '''
+
+    workout_log = models.ForeignKey(WorkoutLog, verbose_name=_('Workout Log'), blank=True, null=True)
+
 
     def __str__(self):
         '''
