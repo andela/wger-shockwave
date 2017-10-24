@@ -236,7 +236,6 @@ def fitbitComplete(request):
     try:
         resp = requests.get(final_url, headers=headers)
         data = resp.json()
-        print(data)
         for content_data in data['body-weight']:
             weight = WeightEntry()
             weight.user = request.user

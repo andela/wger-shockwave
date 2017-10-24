@@ -37,7 +37,12 @@ day in your current workout:{% endblocktrans %} <strong>{{current_workout}}</str
 </div>
 {% endif %}
 
-<a class="btn btn-default" href="{% url 'core:fitbit-login' %}">Import Data from FitBit</a>
+<a class="btn btn-default" href="{% url 'core:fitbit-login' %}">
+    <img width="18"
+        alt="Import from fitbit"
+        src="/static/images/Fitbit_app_icon.png"/>
+    Import Data from FitBit
+</a>
 
 <div class="row">
     <div class="col-sm-4">
