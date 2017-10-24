@@ -87,8 +87,7 @@ INSTALLED_APPS = (
     'corsheaders',
 
     # django-bower for installing bower packages
-    'djangobower',
-    'guardian'
+    'djangobower'
 )
 
 # added list of external libraries to be installed by bower
@@ -137,8 +136,7 @@ MIDDLEWARE_CLASSES = (
 
 AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
-    'wger.utils.helpers.EmailAuthBackend',
-    'guardian.backends.ObjectPermissionBackend'
+    'wger.utils.helpers.EmailAuthBackend'
 )
 
 TEMPLATES = [
