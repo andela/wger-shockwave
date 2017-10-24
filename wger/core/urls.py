@@ -21,7 +21,6 @@ from django.core.urlresolvers import reverse_lazy
 
 from wger.core.views import (user, misc, license, languages, repetition_units,
                              weight_units)
-
 # sub patterns for languages
 patterns_language = [
     url(r'^list$', languages.LanguageListView.as_view(), name='overview'),

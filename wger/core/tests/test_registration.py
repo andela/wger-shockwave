@@ -16,6 +16,7 @@ import logging
 
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
+from rest_framework.authtoken.models import Token
 
 from wger.core.forms import RegistrationForm
 from wger.core.forms import RegistrationFormNoCaptcha
@@ -139,23 +140,26 @@ class ApiRegistrationTestCase(WorkoutManagerTestCase):
 
     def test_register(self):
         ''' test user registration via the API'''
+        user = User.objects.create_user(username='test_user')
+        user.save()
+        token = Token.objects.create(user=user)
         registration_data = {
-            'password1': 'Qwerty09876',
-            'password2': 'Qwerty09876',
-            'email': 'not an email'
+            'api_key': token.key,
+            'username': 'myusername',
+            'password': 'Qwerty09876',
+            'email': 'bruceceom'
         }
         count_before = User.objects.count()
-
         # Wrong email
         response = self.client.post(
-            reverse('core:user:registration'), registration_data)
-        self.assertEqual(response.status_code, 403)
+            '/api/v2/apiusers/', registration_data)
+        self.assertEqual(response.status_code, 400)
         self.user_logout()
 
         # Correct email
         registration_data['email'] = 'my.email@example.com'
         response = self.client.post(
-            reverse('core:user:registration'), registration_data)
+            '/api/v2/apiusers/', registration_data)
         count_after = User.objects.count()
         self.assertEqual(response.status_code, 201)
         self.assertEqual(count_before + 1, count_after)

@@ -720,4 +720,4 @@ class ApiUsers(models.Model):
     A model for users who are created via the API from external applications
     '''
     app = models.ForeignKey(User, related_name='app')
-    user = models.ForeignKey(User, related_name='user')
+    app_user = models.ForeignKey(User, related_name='user')

@@ -88,9 +88,7 @@ INSTALLED_APPS = (
 
     # django-bower for installing bower packages
     'djangobower',
-
-    #Social Auth
-    'social_django',
+    'guardian'
 )
 
 # added list of external libraries to be installed by bower
@@ -140,10 +138,7 @@ MIDDLEWARE_CLASSES = (
 AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
     'wger.utils.helpers.EmailAuthBackend',
-    'social_core.backends.open_id.OpenIdAuth',
-    'social_core.backends.google.GoogleOAuth2',
-    'social_core.backends.twitter.TwitterOAuth',
-    'social_core.backends.facebook.FacebookOAuth2',
+    'guardian.backends.ObjectPermissionBackend'
 )
 
 TEMPLATES = [

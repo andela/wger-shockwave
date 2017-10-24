@@ -19,8 +19,7 @@ from django.contrib.auth.models import User
 from rest_framework import viewsets, status
 from rest_framework.response import Response
 from rest_framework.decorators import detail_route
-from rest_framework.throttling import UserRateThrottle
-from rest_framework.permissions import DjangoObjectPermissions
+from rest_framework.authtoken.models import Token
 
 from wger.core.models import (UserProfile, Language, DaysOfWeek, License,
                               RepetitionUnit, WeightUnit, ApiUsers)
@@ -115,20 +114,28 @@ class UserRegistrationView(viewsets.ModelViewSet):
     '''
     API endpoint for user registration
     '''
-    permission_classes = (DjangoObjectPermissions)
-    throttle_classes = (UserRateThrottle)
-    queryset = User.objects.all()
-    serializer_class = UserSerializer
-    
-    def create(self, request, *args, **kwargs):
+    def get_serializer_class(self, request=None):
+        if request:
+            return ApiUserSerializer
+        return UserSerializer
+
+    def create(self, request):
         '''
         Method for creating a new user
         '''
+        # Create new user
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         self.perform_create(serializer)
         created_user = User.objects.get(pk=serializer.data['id'])
-        ApiUsers.objects.create(app=request.user, user=created_user)
+
+        # Find application via API_KEY provided
+        token = Token.objects.filter(key=request.data['api_key']).first()
+        # TODO: Receive api_key via API
+        cuser = token.user
+
+        # Create APIUser object with Application and created user
+        ApiUsers.objects.create(app=cuser, app_user=created_user)
         headers = self.get_success_headers(serializer.data)
         return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
 
@@ -142,7 +149,7 @@ class ApiUsersView(viewsets.ModelViewSet):
     def get_queryset(self):
         return ApiUsers.objects.all()
 
-    def list(self, *args, **kwargs):
+    def list(self):
         '''
         View the users registered via API
         '''
