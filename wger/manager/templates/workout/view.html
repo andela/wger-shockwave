@@ -247,33 +247,9 @@ an appointment for each training day with the appropriate exercises.{% endblockt
         </li>
         <li>
             <a href="{% url 'manager:workout:copy' workout.id %}" class="wger-modal-dialog">
-<<<<<<< HEAD
-<<<<<<< HEAD
+
                 <span class="{% fa_class 'clone' %}"></span> {% trans "Make a copy of this workout" %}
-<<<<<<< HEAD
-=======
-               <span class="{% fa_class 'clone' %}"></span>
-               {% trans "Make a copy of this workout" %}
->>>>>>> feat(Import Export Export)
             </a>
-        </li>
-        <li>
-            {% if state %}
-            <a id="po" href="{% url 'manager:workout:exportworkout' workout.id %}" class="wger-modal-dialog">
-                <span class="glyphicon glyphicon-export"></span> {% trans "Export workout" %}
-            </a>
-            {% else%}
-            <a class='export-button'>
-                <span class="tooltiptext">You can't export workouts that have no exercise!</span>
-                <span class="glyphicon glyphicon-export"></span> {% trans "Export workout" %}
-=======
->>>>>>> feat(ExportImportWorkout)
-=======
-               <span class="{% fa_class 'clone' %}"></span>
-               {% trans "Make a copy of this workout" %}
->>>>>>> feat(Import Export Export)
-            </a>
-            {% endif %}
         </li>
         <li>
             {% if export_workout_state %}

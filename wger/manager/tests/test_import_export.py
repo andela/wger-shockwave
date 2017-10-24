@@ -15,7 +15,7 @@
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from wger.core.tests.base_testcase import WorkoutManagerTestCase
-from wger.manager.models import Workout, ExportWorkouts
+from wger.manager.models import Workout, ExportWorkout
 
 class ExportImportWorkout(WorkoutManagerTestCase):
     '''
@@ -44,10 +44,10 @@ class ExportImportWorkout(WorkoutManagerTestCase):
         self.client.login(username='example', password='example_password')
         self.client.post(reverse(
             'manager:workout:exportworkout',
-            kwargs={'pk': workout.pk}), {'receiver_id': importer.pk, 'user': exporter})
-        exported_workout = ExportWorkouts.objects.filter(workout_id=workout.pk).first()
-        self.assertEqual(exported_workout.sender_id, exporter.pk)
-        self.assertEqual(exported_workout.receiver_id_id, importer.pk)
+            kwargs={'pk': workout.pk}), {'receiver': importer.pk, 'user': exporter})
+        exported_workout = ExportWorkout.objects.filter(workout_id=workout.pk).first()
+        self.assertEqual(exported_workout.sender, exporter.pk)
+        self.assertEqual(exported_workout.receiver_id, importer.pk)
         self.assertEqual(exported_workout.workout_id, workout.pk)
 
     def test_import_button_shown(self):
@@ -64,7 +64,7 @@ class ExportImportWorkout(WorkoutManagerTestCase):
         self.client.login(username='example', password='example_password')
         self.client.post(reverse(
             'manager:workout:exportworkout',
-            kwargs={'pk': workout.pk}), {'receiver_id': importer.pk, 'user': exporter})
+            kwargs={'pk': workout.pk}), {'receiver': importer.pk, 'user': exporter})
         self.client.login(username='importer', password='example_password2')
         get_response = self.client.get(reverse('manager:workout:overview'))
         self.assertContains(get_response, 'Import Workout')
@@ -83,7 +83,7 @@ class ExportImportWorkout(WorkoutManagerTestCase):
         self.client.login(username='example', password='example_password')
         self.client.post(reverse(
             'manager:workout:exportworkout',
-            kwargs={'pk': workout.pk}), {'receiver_id': importer.pk, 'user': exporter})
+            kwargs={'pk': workout.pk}), {'receiver': importer.pk, 'user': exporter})
         self.client.login(username='importer', password='example_password2')
         exported_workout = ExportWorkout.objects.filter(workout_id=workout.pk).first()
         self.client.post(reverse('manager:workout:importworkout',
