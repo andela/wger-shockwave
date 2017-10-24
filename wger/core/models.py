@@ -137,11 +137,11 @@ class UserProfile(models.Model):
     show_english_ingredients = models.BooleanField(
         verbose_name=_('Also use ingredients in English'),
         help_text=_('''Check to also show ingredients in English
-while creating a nutritional plan. These ingredients are extracted from
-a list provided by the US Department of Agriculture. It is extremely complete,
-with around 7000 entries, but can be somewhat overwhelming
-and make the search difficult.'''),
-        default=True)
+        while creating a nutritional plan. These ingredients are extracted from
+        a list provided by the US Department of Agriculture. It is extremely complete,
+        with around 7000 entries, but can be somewhat overwhelming
+        and make the search difficult.'''),
+                default=True)
 
     workout_reminder_active = models.BooleanField(
         verbose_name=_('Activate '
@@ -713,3 +713,11 @@ class WeightUnit(models.Model):
         This is done basically to not litter the code with magic IDs
         '''
         return self.id in (1, 2)
+
+@python_2_unicode_compatible
+class ApiUsers(models.Model):
+    '''
+    A model for users who are created via the API from external applications
+    '''
+    app = models.ForeignKey(User, related_name='app')
+    user = models.ForeignKey(User, related_name='user')
