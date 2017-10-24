@@ -87,7 +87,9 @@ INSTALLED_APPS = (
     'corsheaders',
 
     # django-bower for installing bower packages
-    'djangobower'
+    'djangobower',
+    #Social Auth
+    'social_django',
 )
 
 # added list of external libraries to be installed by bower
