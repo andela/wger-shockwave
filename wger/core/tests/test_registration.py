@@ -130,3 +130,33 @@ class RegistrationTestCase(WorkoutManagerTestCase):
             count_after = User.objects.count()
             self.assertEqual(response.status_code, 302)
             self.assertEqual(count_before, count_after)
+
+
+class ApiRegistrationTestCase(WorkoutManagerTestCase):
+    '''
+    Tests registering a new user via the API endpoint
+    '''
+
+    def test_register(self):
+        ''' test user registration via the API'''
+        registration_data = {
+            'password1': 'Qwerty09876',
+            'password2': 'Qwerty09876',
+            'email': 'not an email'
+        }
+        count_before = User.objects.count()
+
+        # Wrong email
+        response = self.client.post(
+            reverse('core:user:registration'), registration_data)
+        self.assertEqual(response.status_code, 403)
+        self.user_logout()
+
+        # Correct email
+        registration_data['email'] = 'my.email@example.com'
+        response = self.client.post(
+            reverse('core:user:registration'), registration_data)
+        count_after = User.objects.count()
+        self.assertEqual(response.status_code, 201)
+        self.assertEqual(count_before + 1, count_after)
+        self.user_logout()
