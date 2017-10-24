@@ -26,7 +26,8 @@ from wger.core.models import (UserProfile, Language, DaysOfWeek, License,
 from wger.core.api.serializers import (
     UsernameSerializer, LanguageSerializer, DaysOfWeekSerializer,
     LicenseSerializer, RepetitionUnitSerializer, WeightUnitSerializer)
-from wger.core.api.serializers import UserprofileSerializer, UserSerializer, ApiUserSerializer
+from wger.core.api.serializers import (
+    UserprofileSerializer, UserSerializer, ApiUserSerializer)
 from wger.utils.permissions import UpdateOnlyPermission, WgerPermission
 
 
@@ -137,7 +138,10 @@ class UserRegistrationView(viewsets.ModelViewSet):
         # Create APIUser object with Application and created user
         ApiUsers.objects.create(app=cuser, app_user=created_user)
         headers = self.get_success_headers(serializer.data)
-        return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+        return Response(
+                serializer.data, 
+                status=status.HTTP_201_CREATED, 
+                headers=headers)
 
 
 class ApiUsersView(viewsets.ModelViewSet):
