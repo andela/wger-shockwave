@@ -29,6 +29,13 @@ jobs:
             pip install -r requirements.txt
             invoke create-settings --settings-path wger/settings.py 
 
+      - run:
+          name: apply migrations
+          command: |
+            . venv/bin/activate
+            python3 manage.py makemigrations --merge
+            python3 manage.py migrate
+            
       - save_cache:
           paths:
             - ./venv
