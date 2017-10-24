@@ -16,16 +16,18 @@
 # along with Workout Manager.  If not, see <http://www.gnu.org/licenses/>.
 
 from django.contrib.auth.models import User
-from rest_framework import viewsets
+from rest_framework import viewsets, status
 from rest_framework.response import Response
 from rest_framework.decorators import detail_route
+from rest_framework.throttling import UserRateThrottle
+from rest_framework.permissions import DjangoObjectPermissions
 
 from wger.core.models import (UserProfile, Language, DaysOfWeek, License,
-                              RepetitionUnit, WeightUnit)
+                              RepetitionUnit, WeightUnit, ApiUsers)
 from wger.core.api.serializers import (
     UsernameSerializer, LanguageSerializer, DaysOfWeekSerializer,
     LicenseSerializer, RepetitionUnitSerializer, WeightUnitSerializer)
-from wger.core.api.serializers import UserprofileSerializer
+from wger.core.api.serializers import UserprofileSerializer, UserSerializer, ApiUserSerializer
 from wger.utils.permissions import UpdateOnlyPermission, WgerPermission
 
 
@@ -108,3 +110,42 @@ class WeightUnitViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = WeightUnitSerializer
     ordering_fields = '__all__'
     filter_fields = ('name', )
+
+class UserRegistrationView(viewsets.ModelViewSet):
+    '''
+    API endpoint for user registration
+    '''
+    permission_classes = (DjangoObjectPermissions)
+    throttle_classes = (UserRateThrottle)
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+    
+    def create(self, request, *args, **kwargs):
+        '''
+        Method for creating a new user
+        '''
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer)
+        created_user = User.objects.get(pk=serializer.data['id'])
+        ApiUsers.objects.create(app=request.user, user=created_user)
+        headers = self.get_success_headers(serializer.data)
+        return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+
+
+class ApiUsersView(viewsets.ModelViewSet):
+    '''
+    API endpoint for viewing registered users
+    '''
+    serializer_class = ApiUserSerializer
+
+    def get_queryset(self):
+        return ApiUsers.objects.all()
+
+    def list(self, *args, **kwargs):
+        '''
+        View the users registered via API
+        '''
+        queryset = self.get_queryset()
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data)
