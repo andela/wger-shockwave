@@ -39,7 +39,7 @@ patterns_language = [
 
 # sub patterns for user
 patterns_user = [
-    url(r'^login$', user.login, name='login'),
+    url(r'^login', user.login, name='login'),
     url(r'^logout$', user.logout, name='logout'),
     url(r'^delete$', user.delete, name='delete'),
     url(r'^(?P<user_pk>\d+)/delete$', user.delete, name='delete'),
@@ -60,7 +60,12 @@ patterns_user = [
     url(r'^(?P<pk>\d+)/overview',
         user.UserDetailView.as_view(),
         name='overview'),
-    url(r'^list', user.UserListView.as_view(), name='list'),
+    url(r'^list',
+        user.UserListView.as_view(),
+        name='list'),
+    url(r'^inactive_list',
+        user.UserListView.as_view(userType=False),
+        name='inactive_list'),
 
     # Password reset is implemented by Django,
     # no need to cook our own soup here
