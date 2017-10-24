@@ -18,7 +18,7 @@
 from rest_framework import serializers
 
 from wger.core.models import (UserProfile, Language, DaysOfWeek, License,
-                              RepetitionUnit, WeightUnit)
+                              RepetitionUnit, WeightUnit, ApiUsers)
 
 
 class UserprofileSerializer(serializers.ModelSerializer):
@@ -80,3 +80,25 @@ class WeightUnitSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = WeightUnit
+
+
+class UserSerializer(serializers.ModelSerializer):
+    '''
+    User serializer
+    '''
+
+    class Meta:
+        model = User
+        extra_kwargs = {'password': {'write_only': True}}
+
+
+class ApiUserSerializer(serializers.ModelSerializer):
+    '''
+    API User Serializer
+    '''
+
+    api_user = UserSerializer()
+
+    class Meta:
+        model = ApiUsers
+        fields = ('id', 'api_user')
