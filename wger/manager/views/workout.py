@@ -204,7 +204,6 @@ def exportworkout(request, pk):
     template_data = {}
     template_data['title'] = _('Select User to Send Workout to:')
     template_data['form'] = ExportWorkoutForm()
-    print(template_data['form'])
     template_data['form_action'] = reverse('manager:workout:exportworkout', 
         kwargs={'pk':workout.id})
     template_data['submit_text'] = _('Send')
@@ -488,10 +487,13 @@ def get_users(request):
         users = User.objects.filter(username__icontains = q )[:20]
         results = []
         for user in users:
-            user_json = {}
-            user_json['label'] = user.username            
-            user_json['value'] = user.username
-            results.append(user_json)
+            if user == request.user:
+                continue;
+            else:
+                user_json = {}
+                user_json['label'] = user.username            
+                user_json['value'] = user.username
+                results.append(user_json)
         data = json.dumps({'suggestions':results})
         mimetype = 'application/json'
     else:
