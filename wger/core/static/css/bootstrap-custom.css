@@ -219,6 +219,21 @@ fieldset[disabled] .btn-default.active {
     color: #fff;
     background-color: #babdb6;
 }
+.row{
+    margin: auto;
+    padding-top: 1px;
+    padding-bottom: 1px;
+}
+.login-area{
+    padding: 2px;
+}
+.form-area {
+    margin: 20px;
+    width: 80%;
+}
+.social-logins{
+    margin: 20px;
+}
 .social-header {
     text-align: center;
 }
