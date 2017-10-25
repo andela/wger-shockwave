@@ -60,6 +60,9 @@ On fedora 23
 Then install the python packages from pypi in the virtualenv::
 
 Create Virtual environment and activate it:
+
+::
+
  $ virtualenv --python python3 venv-django
  $ source venv-django/bin/activate
 
