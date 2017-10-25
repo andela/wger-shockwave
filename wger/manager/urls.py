@@ -84,6 +84,7 @@ patterns_workout = [
         name='pdf-table'),
     url(r'^(?P<id>\d+)/pdf/table$', pdf.workout_view, name='pdf-table'),
     url(r'^(?P<day_pk>\d+)/timer$', workout.timer, name='timer'),
+    url(r'^get_users/', workout.get_users, name='users'),
 ]
 
 # sub patterns for workout sessions

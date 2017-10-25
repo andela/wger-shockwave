@@ -17,9 +17,10 @@
 import logging
 import uuid
 import datetime
+import json
 
 from django.shortcuts import render, get_object_or_404
-from django.http import HttpResponseRedirect, HttpResponseForbidden
+from django.http import HttpResponseRedirect, HttpResponseForbidden, HttpResponse
 from django.template.context_processors import csrf
 from django.core.urlresolvers import reverse, reverse_lazy
 from django.utils.translation import ugettext_lazy, ugettext as _
@@ -181,6 +182,7 @@ def add(request):
 
     return HttpResponseRedirect(workout.get_absolute_url())
 
+@login_required
 def exportworkout(request, pk):
     '''
     Export workout and redirect to workout page
@@ -188,18 +190,21 @@ def exportworkout(request, pk):
     :param pk: ID of workout being exported
     '''
     workout = get_object_or_404(Workout, pk=pk)
+
     if request.method == 'POST':
         workout_export = ExportWorkout()
         workout_export.sender = request.user.id
-        workout_export.receiver = User.objects.get(pk=request.POST['receiver'])
+        workout_export.receiver = User.objects.get(username=request.POST['receiver'])
         workout_export.workout = workout
         workout_export.name = request.user.username
         workout_export.save()
+        
         return HttpResponseRedirect(reverse('manager:workout:view', kwargs={'pk':workout.id}))
 
     template_data = {}
-    template_data['title'] = _('Select User to send to')
+    template_data['title'] = _('Select User to Send Workout to:')
     template_data['form'] = ExportWorkoutForm()
+    print(template_data['form'])
     template_data['form_action'] = reverse('manager:workout:exportworkout', 
         kwargs={'pk':workout.id})
     template_data['submit_text'] = _('Send')
@@ -207,6 +212,7 @@ def exportworkout(request, pk):
     
     return render(request, 'form.html', template_data)
 
+@login_required
 def importworkout(request, pk):
     '''
     Import Workout and redirect to list of workouts
@@ -474,3 +480,21 @@ def timer(request, day_pk):
     context['weight_units'] = WeightUnit.objects.all()
     context['repetition_units'] = RepetitionUnit.objects.all()
     return render(request, 'workout/timer.html', context)
+
+@login_required
+def get_users(request):
+    if request.is_ajax():
+        q = request.GET.get('term', '')
+        users = User.objects.filter(username__icontains = q )[:20]
+        results = []
+        for user in users:
+            user_json = {}
+            user_json['label'] = user.username            
+            user_json['value'] = user.username
+            results.append(user_json)
+        data = json.dumps({'suggestions':results})
+        mimetype = 'application/json'
+    else:
+        data = 'fail'
+        mimetype = 'application/json'
+    return HttpResponse(data, mimetype)

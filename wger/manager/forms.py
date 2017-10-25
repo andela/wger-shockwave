@@ -29,7 +29,7 @@ from wger.exercises.models import (Exercise, ExerciseCategory)
 from wger.manager.models import (WorkoutSession, Workout, Day, Set, Setting,
                                  WorkoutLog, ExportWorkout)
 from wger.utils.widgets import (TranslatedSelectMultiple, TranslatedSelect,
-                                ExerciseAjaxSelect)
+                                ExerciseAjaxSelect, UserAjaxSearch)
 from wger.utils.constants import DATE_FORMATS
 from wger.utils.widgets import Html5DateInput
 
@@ -182,3 +182,11 @@ class ExportWorkoutForm(ModelForm):
     class Meta:
         model = ExportWorkout
         exclude = ('sender', 'workout', 'name')
+        widgets = {
+            'receiver' : UserAjaxSearch(),
+        }
+    def __init__(self, *args, **kwargs):
+        super(ExportWorkoutForm, self).__init__(*args, **kwargs)
+        self.fields['receiver'].help_text = _(
+            'Type atleast 3(three) letters of the username of the person '
+            'your sending the workout to.')

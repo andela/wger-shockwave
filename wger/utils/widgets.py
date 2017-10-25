@@ -230,3 +230,18 @@ class TranslatedSelect(Select):
     def render_option(self, selected_choices, option_value, option_label):
         return super(TranslatedSelect, self).render_option(
             selected_choices, option_value, _(option_label))
+
+class UserAjaxSearch(TextInput):
+    '''
+    Autocomplete suggestion when selecting user to send 
+    workout to
+    '''
+    def render(self, name, value, attrs=None):
+        if value is None:
+            value = []
+        output = [u'<div>']
+        output.append(
+            u'<input type="text" id="user-search" class="form-control" name="receiver" value="">')
+        output.append(u'</div>')
+
+        return mark_safe(u'\n'.join(output))

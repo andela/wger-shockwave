@@ -633,6 +633,17 @@ function wgerGetWorkoutSession() {
   });
 }
 
+function wgerUsersAutoComplete(){
+  $('#user-search').autocomplete({
+    serviceUrl: '/workout/get_users/',
+    showNoSuggestionNotice: true,
+    paramName: 'term',
+    minChars: 3,
+    select: function (suggestion) {
+    }
+  });
+}
+
 $(document).ready(function () {
   // Handle the workout PDF download options for workouts
   $('#download-pdf-button').click(function (e) {
