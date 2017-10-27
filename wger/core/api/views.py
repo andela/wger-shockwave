@@ -122,21 +122,24 @@ class UserRegistrationView(viewsets.ModelViewSet):
 
     def create(self, request):
         '''
-        Method for creating a new user
+        Method for creating a new API user
         '''
+
+        # Find application via API_KEY provided
+        token = Token.objects.filter(key=request.data['api_key']).first()
+        application = token.user
+
+        if not application:
+            raise Exception("Application could not be authenticated")
+        
         # Create new user
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         self.perform_create(serializer)
         created_user = User.objects.get(pk=serializer.data['id'])
 
-        # Find application via API_KEY provided
-        token = Token.objects.filter(key=request.data['api_key']).first()
-        # TODO: Receive api_key via API
-        cuser = token.user
-
         # Create APIUser object with Application and created user
-        ApiUsers.objects.create(app=cuser, app_user=created_user)
+        ApiUsers.objects.create(app=application, app_user=created_user)
         headers = self.get_success_headers(serializer.data)
         return Response(
                 serializer.data, 
